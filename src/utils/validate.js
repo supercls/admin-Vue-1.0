@@ -1,6 +1,7 @@
 export function isvalidUsername(str) {
-  var reg = /^1[3|4|5|7|8][0-9]{9}$/; //验证手机号
-  return reg.test(str)
+  //var reg = /^1[3|4|5|7|8][0-9]{9}$/; //验证手机号
+ // return reg.test(str)
+ return true
 }
 
 /* 合法uri*/

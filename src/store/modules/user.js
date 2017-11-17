@@ -38,7 +38,8 @@ const user = {                //定义仓库数据，状态等
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         login(username, userInfo.password).then(response => {
-          const data = response.data
+          console.log(response)
+          const data = response
           setToken(data.token)
           commit('SET_TOKEN', data.token)
           resolve() //完成
@@ -53,7 +54,7 @@ const user = {                //定义仓库数据，状态等
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
           const data = response.data
-          console.log(data.role)
+          console.log(response)
           commit('SET_ROLES', data.role)
           commit('SET_NAME', data.name)
           commit('SET_AVATAR', data.avatar)

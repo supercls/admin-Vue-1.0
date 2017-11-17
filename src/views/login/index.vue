@@ -7,7 +7,7 @@
 				<span class="svg-container svg-container_login">
 					<icon-svg icon-class="yonghuming" />
 				</span>
-				<el-input name="username" type="number" v-model="loginForm.username" autoComplete="on" placeholder="username" />
+				<el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="username" />
 			</el-form-item>
 			<el-form-item prop="password">
 				<span class="svg-container">
@@ -47,8 +47,8 @@ export default {
 		}
 		return {
 			loginForm: {
-				username: '13555555555',
-				password: '11111'
+				username: 'admin',
+				password: '!1qazxsw2'
 			},
 			loginRules: {
 				username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -63,16 +63,18 @@ export default {
 			that.$refs.loginForm.validate(valid => {
 				if (valid) {
 					that.loading = true
-					//console.log(that.service)
 					// that.service({                     //不走store,直接写
 					// 	url: '/user/login',
 					// 	method: 'post',
 					// 	data: {
-					// 		username:that.username,
-					// 		password:that.password
+					// 		username:that.loginForm.username,
+					// 		password:that.loginForm.password
 					// 	}
 					// }).then(function(response){
+					// 	console.log(response)
 					// 	setToken(response.token)
+					// 	console.log(that.$store.state.user)
+					// 	that.$store.state.user.token=response.token
 					// 	that.loading=false;
 					// 	that.$router.push({
 					// 		path:'/'

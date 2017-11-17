@@ -24,11 +24,10 @@ export const constantRouterMap = [
 		redirect: '/quanxian/index',
 		name: '权限',
 		hidden: true,
-		meta: { role: ['a'] },
 		icon: 'fa-dedent',
 		children: [
-			{ path: 'index',component: _import('quanxian/index'), name: '测试1'},
-			{ path: 'editor',component: _import('quanxian/editor'), name: '测试2'},
+			{ path: 'index',component: _import('quanxian/index'), name: '测试'},
+			{ path: 'editor',component: _import('quanxian/editor'), name: '测试1'},
 		]
 	},
 	{
@@ -38,7 +37,6 @@ export const constantRouterMap = [
 		name: '权限1',
 		hidden: true,
 		icon: 'fa-wechat',
-		meta: { role: ['b']},
 		children: [
 			{ path: 'index', component: _import('quanxian1/index'), name: '测试2' },
 		]
@@ -71,13 +69,23 @@ export const constantRouterMap = [
 		path: '/table',
 		component: Layout,
 		redirect: 'noredirect',
-		name:'table',
+		name:'表格',
 		hidden: true,
 		icon: 'fa-krw',
 		noDropdown: false,
 		children: [
-			{ path: 'index',child:'child', name: 'table', component: _import('table/index')},
-			{ path: 'aa',child:'child', name: 'aa', component: _import('table/a')}
+			{ 
+				path: '/table/zhanghu/',
+				redirect: '/table/zhanghu/zhanghu', 
+				name: 'table1', 
+				component: _import('table/zhanghu/zhanghu'),
+				children:[
+					{
+						path:'zhanghu',name:'三级菜单',component:_import('table/zhanghu/zhanghu')
+					}
+				]},
+			{ path: 'index', name: 'table', component: _import('table/index')},
+			{ path: 'aa', name: 'aa', component: _import('table/a')}
 		]
 	},	
 	{ path: '*', redirect: '/404', hidden: true }

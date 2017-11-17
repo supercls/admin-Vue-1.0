@@ -82,6 +82,7 @@ const permission = {
 					// commit('SET_ROUTERS', accessedRouters)  //提交
 					// resolve()    
 					/*根据后台返回数据生成路由表*/
+					console.log(data)
 					const { roles } =data;
 					console.log(roles)
 					var newRoutes=[];
@@ -94,7 +95,7 @@ const permission = {
 					      children:item.children
 					  })
 					})
-					console.log(newRoutes)
+					//console.log(newRoutes)
 					commit('SET_ROUTERS',newRoutes)
 					resolve() 
 			})
