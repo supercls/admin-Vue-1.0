@@ -41,5 +41,5 @@ export default {
 }
 </script>
 <style>
-  .el-submenu .fa{margin-right: 10px;}
+  .el-submenu .fa{margin-right: 15px;}
 </style>
