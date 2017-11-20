@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
-import locale from 'element-ui/lib/locale/lang/en'
 import App from './App'
 import router from './router'
 import store from './store'
@@ -10,7 +9,7 @@ import '@/permission' // 权限
 import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
 import { getToken } from '@/utils/auth'
-Vue.use(ElementUI, { locale })
+Vue.use(ElementUI)
 
 
 // 创建axios实例
@@ -34,12 +33,9 @@ service.interceptors.request.use(config => {
 // respone拦截器
 service.interceptors.response.use(
   response => {
-  /**
-  * code为非20000是抛错 可结合自己业务进行修改
-  */
- 	console.log(response)
+  /*** code为非0是抛错 可结合自己业务进行修改*/
 	const res = response.data
-	if (res.code != 0) {
+	if (res.code != 0 && res.code) {
 	  Message({
 		message: res.message,
 		type: 'error',
@@ -59,7 +55,6 @@ service.interceptors.response.use(
 	  }
 	  return Promise.reject('error')
 	} else {
-	console.log(response)
 	  return response.data
 	}
   },

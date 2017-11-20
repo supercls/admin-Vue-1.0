@@ -82,9 +82,7 @@ const permission = {
 					// commit('SET_ROUTERS', accessedRouters)  //提交
 					// resolve()    
 					/*根据后台返回数据生成路由表*/
-					console.log(data)
 					const { roles } =data;
-					console.log(roles)
 					var newRoutes=[];
 					roles.map((item, index) => {
 					  newRoutes.push({

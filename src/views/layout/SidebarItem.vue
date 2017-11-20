@@ -42,4 +42,7 @@ export default {
 </script>
 <style>
   .el-submenu .fa{margin-right: 15px;}
+  .el-submenu .el-menu-item{
+    min-width: 170px;
+  }
 </style>

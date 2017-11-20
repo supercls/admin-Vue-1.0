@@ -28,4 +28,7 @@ export default {
 .el-menu {
   min-height: 100%;
 }
+.el-submenu .el-menu-item{
+  min-width: 170px;
+}
 </style>

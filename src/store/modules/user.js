@@ -54,7 +54,6 @@ const user = {                //定义仓库数据，状态等
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
           const data = response.data
-          console.log(response)
           commit('SET_ROLES', data.role)
           commit('SET_NAME', data.name)
           commit('SET_AVATAR', data.avatar)
