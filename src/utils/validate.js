@@ -28,3 +28,13 @@ export function validatAlphabets(str) {
   return reg.test(str)
 }
 
+/*验证用户名*/
+export function validaName(str){
+	const reg=/[A-Za-z0-9_\-\u4e00-\u9fa5]+/
+	return reg.test(str)
+}
+/*验证QQ号*/
+export function validateQQ(str){
+	const reg= /[1-9]([0-9]{5,11})/;
+	return reg.test(str)
+}

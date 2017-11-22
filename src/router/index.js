@@ -85,9 +85,15 @@ export const constantRouterMap = [
 					}
 				]},
 			{ path: 'index', name: 'table', component: _import('table/index')},
-			{ path: 'aa', name: 'aa', component: _import('table/a')}
+			{ path: 'upload', name: 'upload', component: _import('table/a')}
 		]
-	},	
+	},
+	{
+		path:'/aloneDilog',
+		component:Layout,
+		name:'修改头像',
+		hidden:true
+	},
 	{ path: '*', redirect: '/404', hidden: true }
 ]
 

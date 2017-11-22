@@ -1,7 +1,7 @@
 <template>
 	<div class="el-table-div">
 		<div class="clearfix">
-			<div class="group-Search-div pull-left">
+			<div class="group-Search-div pull-left clearfix">
 				<el-input placeholder="请输入内容" v-model="inputSerch">
 					<el-select v-model="select" slot="prepend" placeholder="商品名称">
 						<el-option label="条形码" value="1"></el-option>
@@ -10,13 +10,17 @@
 					<el-button slot="append" icon="search" @click="searchButton"></el-button>
 				</el-input>
 			</div>
+			<div class="pull-left data-pick">
+				<dataPick @dataPick1="dataPick1"></dataPick>
+			</div>
 			<el-button type="primary"  class="pull-right addButton el-icon-plus" @click="addButton">添加</el-button>
+			<el-button type="success" class="pull-right addButton fa-repeat fa" @click="refreshBut">刷新</el-button>
 		</div>
 			<el-table
 			:data="tableData"
 			stripe
 			style="width: 100%"  @select="selectOne" @select-all="selectAll"  v-loading="loading"
-			element-loading-text="拼命加载中">
+			element-loading-text="拼命加载中" >
 			<el-table-column
 					type="selection"
 					width="55">
@@ -29,6 +33,7 @@
 			<el-table-column
 				prop="date"
 				label="日期"
+				sortable
 				width="180">
 			</el-table-column>
 			<el-table-column
@@ -132,6 +137,7 @@
 	</div>
 </template>
 <script>
+import dataPick from '../../components/data-picker/data-pick1.vue'
 	export default {
 		data() {
 			return {
@@ -165,8 +171,12 @@
 					sex:'',
 					age:'',
 					address:''
-				}
+				},
+
 			}
+		},
+		components:{
+			dataPick
 		},
 		created() {
 			this.getList()
@@ -182,6 +192,15 @@
 					address:rows.address
 				}
 			},
+			dataPick1:function(value){
+				var str=value.replace(/\-/g,'').replace(/\s+/g,"");
+				var strStart=str.slice(0,8)
+				var strEnd=str.slice(8,16)
+				console.log(strStart+'/'+strEnd)
+			},
+			refreshBut:function(){
+				this.getList()
+			},
 			handleDelete(index, rows) {
         		this.tableData.splice(index,1) //删除数据
       		},
@@ -191,8 +210,8 @@
 			selectAll:function(selection){  //全选
 				console.log(selection)
 			},
-			searchButton:function(){
-
+			searchButton:function(){        //搜索
+				console.log(this.inputSerch)
 			},
 			handleSizeChange(val) {       //条数改变
 				this.listQuery.limit=val;
@@ -231,16 +250,19 @@
 		margin: 20px;
 	}
 	.group-Search-div{
-		max-width:400px;
+		max-width:280px;
 		margin:20px 0px;
 	}
 	.group-Search-div .el-input{
-		min-width: 120px;
+		min-width: 106px;
 	}
 	.page-div{
 		margin: 20px auto;
 	}
 	.addButton{
-		margin:20px 0px
+		margin:20px 0px 20px 15px;
+	}
+	.data-pick{
+		margin: 20px;
 	}
 </style>
