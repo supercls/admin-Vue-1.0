@@ -15,8 +15,11 @@ export const constantRouterMap = [
 		component: Layout,
 		redirect: '/dashboard',
 		hidden: true,
-		name: 'Dashboard',
-		children: [{ path: 'dashboard', component: _import('dashboard/index') }]
+		name: '大数据',
+		children: [
+			{ path: 'dashboard', component: _import('dashboard/index'),name:'大数据' },
+			{ path: 'aloneDilog', component: _import('headerUpload/index'),name:'修改头像' }
+		]
 	},
 	{
 		path: '/quanxian',
@@ -88,12 +91,7 @@ export const constantRouterMap = [
 			{ path: 'upload', name: 'upload', component: _import('table/a')}
 		]
 	},
-	{
-		path:'/aloneDilog',
-		component:Layout,
-		name:'修改头像',
-		hidden:true
-	},
+
 	{ path: '*', redirect: '/404', hidden: true }
 ]
 
@@ -105,5 +103,5 @@ export default new Router({
 
 
 export const asyncRouterMap=[       //异步路由
-	{ path: '*', redirect: '/404', hidden: true }
+	//{ path: '*', redirect: '/404', hidden: true }
 ]

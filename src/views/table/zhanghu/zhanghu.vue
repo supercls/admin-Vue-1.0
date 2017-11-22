@@ -260,7 +260,9 @@
         },
         addButton:function(){                     //添加
             this.dialogAdd=true;
-            this.$refs['AddForm'].resetFields();  //重置
+            setTimeout(()=>{
+                this.$refs['AddForm'].resetFields();  //重置
+            },300)
         },
         AddSure:function(formName){        //确认添加
             var that=this;

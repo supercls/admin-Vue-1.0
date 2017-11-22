@@ -1,6 +1,6 @@
 import { login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-
+import { Message, MessageBox } from 'element-ui'
 const user = {                //定义仓库数据，状态等
   state: {
     token: getToken(),
@@ -42,6 +42,10 @@ const user = {                //定义仓库数据，状态等
           const data = response
           setToken(data.token)
           commit('SET_TOKEN', data.token)
+          Message({
+            message:data.message,
+            type:'success'
+          })
           resolve() //完成
         }).catch(error => {
           reject(error) //否决

@@ -86,6 +86,9 @@ export default {
 					this.$store.dispatch('Login', this.loginForm).then(() => {  //相应action LOgin的函数执行
 					  this.loading = false
 					  this.$router.push({ path: '/' })
+					  this.$message({
+					  	message:'登录成功'
+					  })
 					}).catch(() => {
 					  this.loading = false
 					})
