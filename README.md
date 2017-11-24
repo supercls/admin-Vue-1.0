@@ -1,7 +1,7 @@
 # vueAdmin-template
 
 > A minimal vue admin template with Element UI & axios & iconfont & permission control & lint
-
+ 
 
 [中文文档]https://segmentfault.com/a/1190000009090836
 <a target='_blank' rel='nofollow' href='https://app.codesponsor.io/link/vMACqConzRGb2TuXvYSosXpP/PanJiaChen/vueAdmin-template'>
