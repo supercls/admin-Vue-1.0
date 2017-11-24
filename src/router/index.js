@@ -76,20 +76,20 @@ export const constantRouterMap = [
 		name:'表格',
 		hidden: true,
 		icon: 'fa-krw',
-		noDropdown: false,
+		noDropdown: true,
 		children: [
 			{ 
-				path: 'zhanghu',
-				redirect: '/table/zhanghu/zhanghu',
+				path: 'sanji',
+				redirect: '/table/sanji/zhanghu',
 				name: 'table1', 
 				component:_import('table/zhanghu/zhanghu'),
 				children:[
 					{
-						path:'zhanghu',name:'三级菜单',component:_import('table/zhanghu/zhanghu')
+						path:'/table/sanji/zhanghu',name:'三级菜单',component:_import('table/zhanghu/zhanghu')
 					}
 				]},
-			{ path: 'index', name: 'table', component: _import('table/index')},
-			{ path: 'upload', name: 'upload', component: _import('table/a')}
+			{ path: '/table/index', name: 'table', component: _import('table/index')},
+			{ path: '/table/upload', name: 'upload', component: _import('table/a')}
 		]
 	},
 

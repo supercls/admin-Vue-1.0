@@ -20,9 +20,6 @@ export default {
       'sidebar'
     ]),
      
-  },
-  mounted:function(){
-    console.log(this.permission_routers)
   }
 }
 </script>
