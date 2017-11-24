@@ -1,19 +1,19 @@
 import service from '@/utils/fetch'
-export function login(username, password) {       //fetch  promise用法
+export function login(userName, userPwd) {       //fetch  promise用法
   return service({
-    url: '/user/login',
+    url: 'loginCheck',
     method: 'post',
     data: {
-      username,
-      password
+      userName,
+      userPwd
     }
   })
 }
 
 export function getInfo(token) {
   return service({
-    url: '/user/info',
-    method: 'get',
+    url: 'info',
+    method:'post',
     params: { token }
   })
 }

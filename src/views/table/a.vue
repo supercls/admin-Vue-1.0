@@ -5,10 +5,13 @@
 					<el-input v-model="ruleForm.name"></el-input>
 				</el-form-item>
 				<el-form-item label="头像上传">
-					<el-upload
+					<el-upload ref="uploadhea1"
 					  class="avatar-uploader"
-					  action="https://jsonplaceholder.typicode.com/posts/"
+					  action="http://192.168.6.246:9191//file/upload"
 					  :show-file-list="true"
+					  :auto-upload="true"
+					  :on-error="handleAvatarError"
+					  :on-change="changeInput1"
 					  :on-success="handleAvatarSuccess"
 					  :before-upload="beforeAvatarUpload">
 					  <img v-if="imageUrl" :src="imageUrl" class="avatar">
@@ -20,6 +23,8 @@
 					  action="https://jsonplaceholder.typicode.com/posts/"
 					  list-type="picture-card"
 					  :on-preview="handlePictureCardPreview"
+					  :on-change="changeInput2"
+					  :before-upload="beforeAvatarUpload"
 					  :on-remove="handleRemove">
 					  <i class="el-icon-plus"></i>
 					</el-upload>
@@ -85,11 +90,11 @@
 					delivery: false,
 					type: [],
 					resource: '',
-					desc: ''
+					desc: '',
 				},
 				imageUrl: '',
 				dialogImageUrl: '',
-        dialogVisible: false,
+        		dialogVisible: false,
 				rules: {
 					name: [
 						{ required: true, message: '请输入活动名称', trigger: 'blur' },
@@ -135,31 +140,57 @@
 				this.$refs[formName].resetFields();
 			},
 			handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
-      },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg'||file.type ==='image/png'; //限制只能上传图片格式
-        const isLt2M = file.size / 1024 / 1024 < 2;
-        console.log(file)
-        if (!isJPG) {
-          this.$message.error('上传仅支持jpg以及png格式');
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
-        }
-        return isJPG && isLt2M;
-      },
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
-      }
+				console.log(res)
+       			 this.imageUrl = URL.createObjectURL(file.raw);
+      		},
+			changeInput1:function(file, fileList){   //文件上传状态
+				this.imageUrl=file.url
+				if(fileList.length>1){  //限制只能上传一张图片
+					fileList.shift()
+				}
+				console.log(fileList)
+			},
+			changeInput2:function(file, fileList){   //文件上传状态
+				if(fileList.length>4){  //限制只能上传一张图片
+					fileList.shift()
+					this.$message({
+						message:'最多只能上传四张图片',
+						type:"error"
+					})
+				}
+				console.log(fileList)
+			},
+			beforeAvatarUpload(file) {
+				const isJPG = file.type === 'image/jpeg'||file.type ==='image/png'; //限制只能上传图片格式
+				const isLt2M = file.size / 1024 / 1024 < 2;
+				if (!isJPG) {
+				  this.$message.error('上传仅支持jpg以及png格式');
+				  this.imageUrl="";
+				}
+				if (!isLt2M) {
+				  this.$message.error('上传头像图片大小不能超过 2MB!');
+				  this.imageUrl="";
+				}
+				return isJPG && isLt2M;
+			},
+			handleAvatarError:function(err){     //文件上传失败
+				this.$message({
+					message:'上传失败',
+					type:'error'
+				})
+
+			},
+			handleRemove(file, fileList) {
+				console.log(file, fileList);
+			},
+			handlePictureCardPreview(file) {
+				this.dialogImageUrl = file.url;
+				this.dialogVisible = true;
+			}
 		}
 	}
 </script>
-<style>
+<style >
 	.form-upload{
 		margin: 20px;
 		max-width: 600px;

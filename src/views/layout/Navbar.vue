@@ -30,9 +30,13 @@
 			<el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
 				<el-upload
 						class="Nav-avatar-uploader"
+						ref="upload"
 						action="https://jsonplaceholder.typicode.com/posts/"
 						:show-file-list="false"
+						:on-progress="handOnloading"
+						:auto-upload="true"
 						:on-success="handleAvatarSuccess"
+						v-loading.body="Uploadloading"
 						:before-upload="beforeAvatarUpload">
 					<img v-if="imageUrl" :src="imageUrl" class="avatar">
 					<i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -85,6 +89,7 @@
 		};
 		return {
 			dilogVisible1:false,
+			Uploadloading:false,  //头像上传loading
 			imageUrl: '',
 			ruleForm2: {
 				oldpass:'',
@@ -125,10 +130,15 @@
 				location.reload()  // 为了重新实例化vue-router对象 避免bug
 			})
 		},
-		handleAvatarSuccess(res, file) {
-			this.imageUrl = URL.createObjectURL(file.raw);
+		handOnloading:function(){     //文件上传时候的钩子
+			this.Uploadloading=true
 		},
-		beforeAvatarUpload(file) {
+		handleAvatarSuccess(res, file,fileList) {    //文件上传成功时候钩子
+			this.imageUrl = URL.createObjectURL(file.raw);
+			console.log(file)
+			this.Uploadloading=false;
+		},
+		beforeAvatarUpload(file) {         //文件上传前的钩子
 			const isJPGPNG = file.type === 'image/jpeg'||file.type==='image/png';
 			const isLt2M = file.size / 1024 / 1024 < 2;
 
@@ -180,7 +190,7 @@
 	.Nav-avatar-uploader{
 		text-align: center
 	}
-	.Nav-avatar-uploader  el-upload {
+	.el-upload {
 		border: 1px dashed #d9d9d9;
 		border-radius: 50%;
 		cursor: pointer;
@@ -201,6 +211,8 @@
 	.avatar {
 		width: 100px;
 		height: 100px;
+		border: 1px dashed #d9d9d9;
+		border-radius: 50%;
 		display: block;
 	}
 	.navbar {

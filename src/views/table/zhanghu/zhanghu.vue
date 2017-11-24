@@ -382,7 +382,7 @@
     }
 
 </script>
-<style>
+<style scoped>
     .el-table-div{
         margin: 20px;
     }

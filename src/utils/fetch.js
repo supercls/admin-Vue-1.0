@@ -6,9 +6,9 @@ import { getToken } from '@/utils/auth'
 // 创建axios实例
 const service = axios.create({
   baseURL: process.env.BASE_API, // api的base_url
-  timeout: 15000                  // 请求超时时间
+  timeout: 15000                // 请求超时时间
 })
-
+service.defaults.withCredentials = true  //请求开启cookie
 // request拦截器
 service.interceptors.request.use(config => {
   if (store.getters.token) {
@@ -30,7 +30,7 @@ service.interceptors.response.use(
     const res = response.data
     if (res.code != 0) {
       Message({
-        message: res.msg,
+        message: res.message,
         type: 'error',
         showClose: true,
         duration: 5 * 1000

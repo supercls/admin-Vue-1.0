@@ -1,11 +1,11 @@
 import { constantRouterMap} from '@/router'
 
-/*** Í¨¹ımeta.roleÅĞ¶ÏÊÇ·ñÓëµ±Ç°ÓÃ»§È¨ÏŞÆ¥Åä* @param roles* @param route*/
+/*** é€šè¿‡meta.roleåˆ¤æ–­æ˜¯å¦ä¸å½“å‰ç”¨æˆ·æƒé™åŒ¹é…* @param roles* @param route*/
 // function hasPermission(roles, route) {
 //   //console.log(route.meta.role)
-//   //console.log(roles.length)   //rolesÓÃ»§¶ÔÓ¦È¨ÏŞ
-//   var roleArr=[];               //¿ÕÊı×é´æ´¢ÓÃ»§²Ëµ¥È¨ÏŞ
-//   var childrenArr=[]            //´æ´¢¶ş¼¶²Ëµ¥È¨ÏŞ
+//   //console.log(roles.length)   //rolesç”¨æˆ·å¯¹åº”æƒé™
+//   var roleArr=[];               //ç©ºæ•°ç»„å­˜å‚¨ç”¨æˆ·èœå•æƒé™
+//   var childrenArr=[]            //å­˜å‚¨äºŒçº§èœå•æƒé™
 //   for(var i=0;i<roles.length;i++){
 //   	roleArr.push(roles[i].menuList)
 //   }
@@ -16,9 +16,9 @@ import { constantRouterMap} from '@/router'
 //   // if(route.children){
 //   // 	console.log(route.children)
 //   // }
-// 	if(route.meta && route.meta.role && route.redirect){ //Èç¹ûÂ·ÓÉÉèÖÃÀïÓĞmeta±êÇ©²¢ÇÒÓµÓĞroleÊôĞÔÔò
+// 	if(route.meta && route.meta.role && route.redirect){ //å¦‚æœè·¯ç”±è®¾ç½®é‡Œæœ‰metaæ ‡ç­¾å¹¶ä¸”æ‹¥æœ‰roleå±æ€§åˆ™
 //     //console.log(roles.indexOf(route.meta.role) >= 0)
-//     //return route.meta.role.indexOf(roles) >= 0  ÅĞ¶Ï½ÇÉ«
+//     //return route.meta.role.indexOf(roles) >= 0  åˆ¤æ–­è§’è‰²
 //     console.log(route)
 //     return  roleArr.indexOf(route.meta.role) >= 0
 //   }
@@ -34,7 +34,7 @@ import { constantRouterMap} from '@/router'
 // }
 
 /**
- * µİ¹é¹ıÂËÒì²½Â·ÓÉ±í£¬·µ»Ø·ûºÏÓÃ»§½ÇÉ«È¨ÏŞµÄÂ·ÓÉ±í
+ * é€’å½’è¿‡æ»¤å¼‚æ­¥è·¯ç”±è¡¨ï¼Œè¿”å›ç¬¦åˆç”¨æˆ·è§’è‰²æƒé™çš„è·¯ç”±è¡¨
  * @param asyncRouterMap
  * @param roles
  */
@@ -60,42 +60,44 @@ const permission = {
 		addRouters: []
 	},
 	mutations: {
-		SET_ROUTERS: (state, routers) => {        //Éú³ÉÂ·ÓÉ±í
+		SET_ROUTERS: (state, routers) => {        //ç”Ÿæˆè·¯ç”±è¡¨
 			state.addRouters = routers
 			state.routers = constantRouterMap.concat(routers)
 		}
 	},
 	actions: {
 		GenerateRoutes({ commit }, data) {
-			return new Promise(function(resolve){   //µÃµ½Â·ÓÉÁĞ±í£¬°üÀ¨ËùÓĞÈ¨ÏŞÂ·ÓÉºÍ×ÓÂ·ÓÉ
-					// const { roles } = data
-					// console.log(roles)
-					// let accessedRouters
-					// if (roles.indexOf('admin') >= 0) {   //ÊÇadminÈ¨ÏŞ,ÔòÓµÓĞËùÓĞÈ¨ÏŞ
-					//   accessedRouters = asyncRouterMap
-					// } else {                            //²»ÊÇÔòÖ´ĞĞÏÂÃæº¯Êı  filterÊÇ¾Í·µ»ØÔªËØ£¬´í¾ÍÃ»ÓĞ
-					// 	for(var i=0;i<roles.length;i++){
-					// 		accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
-					// 	}
-					//   console.log(accessedRouters)
-					// }
-					// commit('SET_ROUTERS', accessedRouters)  //Ìá½»
-					// resolve()    
-					/*¸ù¾İºóÌ¨·µ»ØÊı¾İÉú³ÉÂ·ÓÉ±í*/
-					const { roles } =data;
-					var newRoutes=[];
-					roles.map((item, index) => {
-					  newRoutes.push({
-					      path:item.path,
-					      component: Layout,
-					      name: item.name,
-					      icon:item.icon,
-					      children:item.children
-					  })
+			return new Promise(function(resolve){   //å¾—åˆ°è·¯ç”±åˆ—è¡¨ï¼ŒåŒ…æ‹¬æ‰€æœ‰æƒé™è·¯ç”±å’Œå­è·¯ç”±
+				// const { roles } = data
+				// console.log(roles)
+				// let accessedRouters
+				// if (roles.indexOf('admin') >= 0) {   //æ˜¯adminæƒé™,åˆ™æ‹¥æœ‰æ‰€æœ‰æƒé™
+				//   accessedRouters = asyncRouterMap
+				// } else {                            //ä¸æ˜¯åˆ™æ‰§è¡Œä¸‹é¢å‡½æ•°  filteræ˜¯å°±è¿”å›å…ƒç´ ï¼Œé”™å°±æ²¡æœ‰
+				// 	for(var i=0;i<roles.length;i++){
+				// 		accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
+				// 	}
+				//   console.log(accessedRouters)
+				// }
+				// commit('SET_ROUTERS', accessedRouters)  //æäº¤
+				// resolve()
+				/*æ ¹æ®åå°è¿”å›æ•°æ®ç”Ÿæˆè·¯ç”±è¡¨*/
+
+				const { roles } =data;
+				console.log(data)
+				var newRoutes=[];
+				roles.map((item, index) => {
+					newRoutes.push({
+						path:item.path,
+						component: Layout,
+						name: item.name,
+						icon:item.icon,
+						children:item.children
 					})
-					//console.log(newRoutes)
-					commit('SET_ROUTERS',newRoutes)
-					resolve() 
+				})
+				//console.log(newRoutes)
+				commit('SET_ROUTERS',newRoutes)
+				resolve()
 			})
 		}
 	}
