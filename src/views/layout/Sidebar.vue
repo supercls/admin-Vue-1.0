@@ -19,7 +19,10 @@ export default {
       'permission_routers',
       'sidebar'
     ]),
-    
+     
+  },
+  mounted:function(){
+    console.log(this.permission_routers)
   }
 }
 </script>

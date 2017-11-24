@@ -1,23 +1,23 @@
 <template>
 	<div class="register-container">
-		<header>
-
+		<header class="clearfix">
+            <p>已有账号?<router-link to="/login"><el-button type="info">立即登录</el-button></router-link></p>
 		</header>
 		<el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
 			class="card-box login-form">
 			<h3 class="title">后台管理系统</h3>
 			<el-form-item prop="username">
 				<span class="svg-container svg-container_login">
-					<icon-svg icon-class="yonghuming" />
+					<i class="fa fa-mobile"></i>
 				</span>
-				<el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="username" />
+				<el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="请输入手机号" />
 			</el-form-item>
 			<el-form-item prop="password">
 				<span class="svg-container">
 					<icon-svg icon-class="mima"></icon-svg>
 				</span>
 				<el-input name="password" type="password" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on"
-					placeholder="password"></el-input>
+					placeholder="请输入密码"></el-input>
 			</el-form-item>
 			<el-form-item>
 				<el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
@@ -30,7 +30,7 @@
 
 <script>
 import { isvalidUsername } from '@/utils/validate'
-import { setToken } from '@/utils/auth' 
+import { setToken } from '@/utils/auth'
 export default {
 	name: 'login',
 	data() {
@@ -50,8 +50,8 @@ export default {
 		}
 		return {
 			loginForm: {
-				username: 'admin',
-				password: '111111'
+				username: '',
+				password: ''
 			},
 			loginRules: {
 				username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -119,6 +119,13 @@ export default {
 			-webkit-box-shadow: 0 0 0px 1000px #293444 inset !important;
 			-webkit-text-fill-color: #fff !important;
 		}
+        header p {
+            float: right;
+            color: #fff;
+        }
+        header p button{
+            margin:0 100px 0 25px;
+        }
 		input {
 			background: transparent;
 			border: 0px;

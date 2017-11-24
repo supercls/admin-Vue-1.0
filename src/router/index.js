@@ -58,15 +58,15 @@ export const constantRouterMap = [
 		]
 	},
 	{
-		path: '/example',
+		path: '/sys',
 		component: Layout,
 		redirect: 'noredirect',
 		name: 'Example',
 		hidden: true,
 		icon: 'fa-bar-chart',
 		children: [
-			{ path: 'index', name: 'Form', icon: 'zonghe', component: _import('page/form')},
-			{ path: 'a', name: 'a', icon: 'zonghez', component: _import('page/a')},
+			{ path: 'operaterole/list', name: '角色管理', icon: 'zonghe', component: _import('page/form')},
+			{ path: 'operateuser/list', name: '人员管理', icon: 'zonghez', component: _import('page/a')},
 		]
 	},
 	{
@@ -79,10 +79,10 @@ export const constantRouterMap = [
 		noDropdown: false,
 		children: [
 			{ 
-				path: '/table/zhanghu/',
-				redirect: '/table/zhanghu/zhanghu', 
+				path: 'zhanghu',
+				redirect: '/table/zhanghu/zhanghu',
 				name: 'table1', 
-				component: _import('table/zhanghu/zhanghu'),
+				component:_import('table/zhanghu/zhanghu'),
 				children:[
 					{
 						path:'zhanghu',name:'三级菜单',component:_import('table/zhanghu/zhanghu')
@@ -104,5 +104,5 @@ export default new Router({
 
 
 export const asyncRouterMap=[       //异步路由
-	//{ path: '*', redirect: '/404', hidden: true }
+	{ path: '*', redirect: '/404', hidden: true }
 ]

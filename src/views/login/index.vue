@@ -17,17 +17,23 @@
 					placeholder="password"></el-input>
 			</el-form-item>
 			<el-form-item>
+                <div id="mpanel"></div> <!--验证插件-->
+			</el-form-item>
+			<el-form-item>
 				<el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
 					登录
 				</el-button>
 			</el-form-item>
+
 		</el-form>
 	</div>
 </template>
 
 <script>
 import { isvalidUsername } from '@/utils/validate'
-import { setToken } from '@/utils/auth' 
+import { setToken } from '@/utils/auth'
+import '@/assets/js/verify.js'
+import '@/assets/css/verify.css'
 export default {
 	name: 'login',
 	data() {
@@ -54,50 +60,60 @@ export default {
 				username: [{ required: true, trigger: 'blur', validator: validateUsername }],
 				password: [{ required: true, trigger: 'blur', validator: validatePass }]
 			},
-			loading: false
+			loading: false,
+            slideVerify:false //滑动验证判断
 		}
 	}, 
 	methods: {
 		handleLogin() {
 			var that=this
 			that.$refs.loginForm.validate(valid => {
+			    if(!that.slideVerify){
+			        that.$message({
+			            message:'请移动滑块验证',
+			            type:'error'
+			        })
+			        return false
+			    }
 				if (valid) {
 					that.loading = true
-					// that.service({                     //不走store,直接写
-					// 	url: '/user/login',
-					// 	method: 'post',
-					// 	data: {
-					// 		username:that.loginForm.username,
-					// 		password:that.loginForm.password
-					// 	}
-					// }).then(function(response){
-					// 	console.log(response)
-					// 	setToken(response.token)
-					// 	console.log(that.$store.state.user)
-					// 	that.$store.state.user.token=response.token
-					// 	that.loading=false;
-					// 	that.$router.push({
-					// 		path:'/'
-					// 	})
-					// }).catch(function(data){
-					// 	that.loading=false;
-					// 	console.log(data)
-					// })
-					this.$store.dispatch('Login', this.loginForm).then(() => {  //相应action LOgin的函数执行
-					  this.loading = false
-					  this.$router.push({ path: '/' })
-					  this.$message({
+                    that.$store.dispatch('Login', that.loginForm).then(() => {  //相应action LOgin的函数执行
+                        that.loading = false
+                        that.$router.push({ path: '/' })
+                        that.$message({
 					  	message:'登录成功'
 					  })
 					}).catch(() => {
-					  this.loading = false
+					    that.loading = false
 					})
 				} else {
-					this.$message.error('提交失败')
+                    that.$message.error('提交失败')
 					return false
 				}
 			})
 		}
+	},
+	mounted:function(){
+	    var that=this;
+		$('#mpanel').slideVerify({
+			type : 1,		//类型
+			vOffset :1,	   //误差量，根据需求自行调整
+			barSize : {
+				width : '100%',
+				height : '40px',
+			},
+			success : function() {
+                that.slideVerify=true;
+			},
+			error : function() {
+                that.slideVerify=false;
+                that.$message({
+                    message:'妹子，玩呢？手不要抖啊',
+                    type:'error'
+                })
+			}
+
+		});
 	}
 }
 </script>
