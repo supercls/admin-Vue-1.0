@@ -25,11 +25,11 @@
 					type="selection"
 					width="55">
 			</el-table-column>
-			<el-table-column
-				prop="id"
-				label="ID"
-				width="60">
-			</el-table-column>
+				<el-table-column align="center" label="序号" width="65">
+					<template scope="scope">
+						<span>{{scope.row.id}}</span>
+					</template>
+				</el-table-column>
 			<el-table-column
 				prop="date"
 				label="日期"
