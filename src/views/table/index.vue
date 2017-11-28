@@ -138,6 +138,7 @@
 </template>
 <script>
 import dataPick from '../../components/data-picker/data-pick1.vue'
+import service from '@/utils/fetch'
 	export default {
 		data() {
 			return {
@@ -240,7 +241,28 @@ import dataPick from '../../components/data-picker/data-pick1.vue'
 			}
 		},
 		mounted:function(){
-
+//		    function getinfo(){        异步
+//                return service({
+//                    url: 'info',
+//                    method:'post',
+//                    params:'88'
+//                })
+//		    }
+//			function any(){
+//			    return new Promise((resolve,reject)=>{
+//			        getinfo().then(response=>{
+//			            console.log('1')
+//                        resolve(response)
+//			        }).catch(error=>{
+//			            reject(error)
+//			        })
+//			    })
+//			}
+//			any().then((res)=>{
+//			    console.log(res)
+//			}).catch((error)=>{
+//			    console.log('error'+error)
+//			})
 		}
 	}
 

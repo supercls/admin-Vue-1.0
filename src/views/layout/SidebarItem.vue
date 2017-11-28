@@ -37,13 +37,10 @@ export default {
     routes: {
       type: Array
     }
-  },
-  mounted:function(){
-    console.log(this.routes)
   }
 }
 </script>
-<style>
+<style scoped>
   .el-submenu .fa{margin-right: 15px;}
   .el-submenu .el-menu-item{
     min-width: 170px;

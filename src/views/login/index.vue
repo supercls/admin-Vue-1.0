@@ -81,8 +81,8 @@ export default {
                         that.loading = false
                         that.$router.push({ path: '/' })
                         that.$message({
-					  	message:'登录成功'
-					  })
+					  		message:'登录成功'
+					  	})
 					}).catch(() => {
 					    that.loading = false
 					})

@@ -41,10 +41,6 @@ const user = {                //定义仓库数据，状态等
           const data = response
           setToken(data.token)
           commit('SET_TOKEN', data.token)
-          Message({
-            message:data.message,
-            type:'success'
-          })
           resolve() //完成
         }).catch(error => {
           reject(error) //否决
@@ -57,7 +53,6 @@ const user = {                //定义仓库数据，状态等
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
           const data = response.data
-          console.log(data)
           commit('SET_ROLES', data.role)
           commit('SET_NAME', data.userName)
           commit('SET_AVATAR', data.avatar)

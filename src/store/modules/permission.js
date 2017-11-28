@@ -84,7 +84,6 @@ const permission = {
 				/*根据后台返回数据生成路由表*/
 
 				const { roles } =data;
-				console.log(data)
 				var newRoutes=[];
 				roles.map((item, index) => {
 					newRoutes.push({
@@ -95,7 +94,6 @@ const permission = {
 						children:item.children
 					})
 				})
-				//console.log(newRoutes)
 				commit('SET_ROUTERS',newRoutes)
 				resolve()
 			})

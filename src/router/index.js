@@ -18,8 +18,8 @@ export const constantRouterMap = [
 		hidden: true,
 		name: '大数据',
 		children: [
-			{ path: 'dashboard', component: _import('dashboard/index'),name:'大数据' },
-			{ path: 'aloneDilog', component: _import('headerUpload/index'),name:'修改头像' }
+			{ path: '/dashboard', component: _import('dashboard/index'),name:'大数据' },
+			{ path: '/aloneDilog', component: _import('headerUpload/index'),name:'修改头像' }
 		]
 	},
 	{
@@ -65,8 +65,8 @@ export const constantRouterMap = [
 		hidden: true,
 		icon: 'fa-bar-chart',
 		children: [
-			{ path: 'operaterole/list', name: '角色管理', icon: 'zonghe', component: _import('page/form')},
-			{ path: 'operateuser/list', name: '人员管理', icon: 'zonghez', component: _import('page/a')},
+			{ path: '/sys/operaterole/list', name: '角色管理', icon: 'zonghe', component: _import('page/form')},
+			{ path: '/sys/operateuser/list', name: '人员管理', icon: 'zonghez', component: _import('page/a')},
 		]
 	},
 	{
@@ -92,7 +92,18 @@ export const constantRouterMap = [
 			{ path: '/table/upload', name: 'upload', component: _import('table/a')}
 		]
 	},
-
+	{
+		path:'/echarts',
+		component: Layout,
+		redirect: '/echarts/index',
+		name:'echarts',
+		hidden: true,
+		icon: 'fa-krw',
+		noDropdown: true,
+		children:[
+			{path:'/echarts/index',name: 'echarts', component: _import('echarts/index')}
+		]
+	},
 	{ path: '*', redirect: '/404', hidden: true }
 ]
 

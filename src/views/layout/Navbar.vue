@@ -3,6 +3,7 @@
 		<hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
 		<levelbar></levelbar>
 		<tabview></tabview>
+		<span class="navbar-span">{{name}}</span>
 		<el-dropdown class="avatar-container" trigger="click">
 			<div class="avatar-wrapper">
 				<img class="user-avatar" :src="userIcon">
@@ -118,7 +119,8 @@
 	...mapGetters([
 			'sidebar',
 			'avatar',
-			'userIcon'
+			'userIcon',
+			'name'
 		])
 	},
 	methods: {
@@ -259,5 +261,18 @@
 	}
 	}
 	}
+	.navbar-span{
+		float: right;
+		margin-right: 88px;
+		color: #228DFF;
+		display: inline-block;
+		-webkit-transition: all 0.5s;
+		-moz-transition: all 0.5s;
+		transition: all 0.5s;
+	}
+	.navbar-span:hover{
+
+	}
+
 </style>
 

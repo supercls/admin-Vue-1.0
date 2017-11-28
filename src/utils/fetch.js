@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
 import store from '../store'
-import { getToken } from '@/utils/auth'
+import { getToken,getDstoken,setDstoken,removeDstoken} from '@/utils/auth'
 
 // 创建axios实例
 const service = axios.create({
@@ -12,7 +12,10 @@ const service = axios.create({
 // request拦截器
 service.interceptors.request.use(config => {
   if (store.getters.token) {
-  config.headers['X-Token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+    config.headers['X-Token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+  }
+  if(getDstoken()){
+    config.headers['DS-Token'] = getDstoken() // dstoken 保存操作传递
   }
   return config
 }, error => {
@@ -37,7 +40,7 @@ service.interceptors.response.use(
       })
       // 50008:非法的token; 50012:其他客户端登录了;  50014:Token 过期了;
       if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
-        MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {
+        MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '需要重新验证身份', {
           confirmButtonText: '重新登录',
           cancelButtonText: '取消',
           type: 'warning'
@@ -49,6 +52,14 @@ service.interceptors.response.use(
       }
       return Promise.reject('error')
     } else {
+      if(response.data.dsToken){
+        setDstoken(response.data.dsToken)
+      }
+      else{
+        if(!response.data.remainDsToken){
+          removeDstoken()
+        }
+      }
       return response.data
     }
   },

@@ -51,7 +51,7 @@ a:hover {
 .fade-leave-active {
   opacity: 0;
 }
-
+.img-responsive{display: block;max-width: 100%; height: auto;}
 //main-container全局样式
 .app-main{
   min-height: 100%
