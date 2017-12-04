@@ -11,7 +11,6 @@ import { Message, MessageBox } from 'element-ui'
 import { getToken,getDstoken,setDstoken,removeDstoken} from '@/utils/auth'
 Vue.use(ElementUI)
 
-
 // 创建axios实例
 const service = axios.create({
   baseURL: process.env.BASE_API, // api的base_url

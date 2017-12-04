@@ -57,16 +57,18 @@ export const constantRouterMap = [
 			{ path: 'index', component: _import('quanxian2/index'), name: '测试3' },
 		]
 	},
-	{
+	{   																							//系统管理
 		path: '/sys',
 		component: Layout,
 		redirect: 'noredirect',
-		name: 'Example',
+		name: '系统管理',
 		hidden: true,
 		icon: 'fa-bar-chart',
 		children: [
-			{ path: '/sys/operaterole/list', name: '角色管理', icon: 'zonghe', component: _import('page/form')},
-			{ path: '/sys/operateuser/list', name: '人员管理', icon: 'zonghez', component: _import('page/a')},
+			{ path: '/sys/operaterole/list', name: '角色管理', icon: 'zonghe', component: _import('sys/operaterole/list')},
+			{ path: '/sys/operateuser/list', name: '人员管理', icon: 'zonghez', component: _import('sys/operateuser/list')},
+			{ path: '/sys/operatemenu/list', name: '菜单管理', icon: 'zonghez', component: _import('sys/operatemenu/list')},
+			{ path: '/sys/dictbase/list', name: '字典管理', icon: 'zonghez', component: _import('sys/dictbase/list')},
 		]
 	},
 	{

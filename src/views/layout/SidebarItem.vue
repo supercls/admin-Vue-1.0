@@ -45,4 +45,6 @@ export default {
   .el-submenu .el-menu-item{
     min-width: 170px;
   }
+
+
 </style>

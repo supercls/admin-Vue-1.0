@@ -1,5 +1,7 @@
 @import './element-ui.scss';
 @import './mixin.scss';
+@import './variables.scss';
+@import './sidebar.scss';
 body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -51,7 +53,7 @@ a:hover {
 .fade-leave-active {
   opacity: 0;
 }
-.img-responsive{display: block;max-width: 100%; height: auto;}
+
 //main-container全局样式
 .app-main{
   min-height: 100%
@@ -71,4 +73,8 @@ a:hover {
 
 .el-button span{
   margin-left:0px;
+}
+.wrap-table{
+  margin: 50px 20px 50px 20px;
+  box-sizing: border-box;
 }

@@ -179,6 +179,7 @@
 	mounted:function(){
 		var userIcon=this.$store.state.user.userIcon;
 		this.imageUrl=userIcon
+
 	}
 	}
 </script>

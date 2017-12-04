@@ -166,10 +166,3 @@
 			return false;
 		}
 })(window,jQuery,undefined) 
-
-
-
-function h(a,b,c,d){
-
-alert(a)
-}

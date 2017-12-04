@@ -190,7 +190,7 @@
 		}
 	}
 </script>
-<style >
+<style scoped>
 	.form-upload{
 		margin: 20px;
 		max-width: 600px;
