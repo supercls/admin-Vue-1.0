@@ -1,5 +1,5 @@
 <template>
-	<div class="login-container">
+	<div class="login-container" id="particles">
 		<el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
 			class="card-box login-form">
 			<h3 class="title">后台管理系统</h3>
@@ -95,6 +95,12 @@ export default {
 	},
 	mounted:function(){
 	    var that=this;
+		$(document).ready(function() {
+			$('#particles').particleground({
+				dotColor: '#58677b',
+				lineColor: '#58677b'
+			});
+		});
 		$('#mpanel').slideVerify({
 			type : 1,		//类型
 			vOffset :1,	   //误差量，根据需求自行调整
@@ -103,14 +109,14 @@ export default {
 				height : '40px',
 			},
 			success : function() {
-                that.slideVerify=true;
+				that.slideVerify=true;
 			},
 			error : function() {
-                that.slideVerify=false;
-                that.$message({
-                    message:'妹子，玩呢？手不要抖啊',
-                    type:'error'
-                })
+				that.slideVerify=false;
+				that.$message({
+					message:'妹子，玩呢？手不要抖啊',
+					type:'error'
+				})
 			}
 
 		});
@@ -127,6 +133,7 @@ export default {
 	.login-container {
 		@include relative;
 		height: 100vh;
+		overflow: hidden;
 		background-color: $bg;
 		input:-webkit-autofill {
 			-webkit-box-shadow: 0 0 0px 1000px #293444 inset !important;
@@ -171,6 +178,7 @@ export default {
 		}
 		.login-form {
 			position: absolute;
+			top: 0;
 			left: 0;
 			right: 0;
 			width: 400px;

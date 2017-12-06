@@ -21,6 +21,7 @@
             :data="tableData"
             border
             highlight-current-row
+            height="500"
             v-loading="loading"
             style="width: 100%">
             <el-table-column  label="序号" width="65"  align="center">
@@ -50,12 +51,12 @@
               prop="editor"
               align="center"
               label="操作"
-              min-width="250">
+              min-width="300">
               <template scope="scope">
                 <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                <el-button  size="small" @click="handleConfig(scope.$index, scope.row)" style="margin-left: 0">分配</el-button>
-                <el-button  size="small" @click="roleConfig(scope.$index, scope.row)" style="margin-left: 0">人员分配</el-button>
-                <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" style="margin-left: 0">删除 </el-button>
+                <el-button  size="small" @click="handleConfig(scope.$index, scope.row)" style="margin-left: 10px">分配</el-button>
+                <el-button  size="small" @click="roleConfig(scope.$index, scope.row)" style="margin-left: 10px">人员分配</el-button>
+                <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" style="margin-left: 10px">删除 </el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -68,6 +69,7 @@
                 ref="tree"
                 :default-checked-keys="checkedList"
                 :props="defaultProps"
+                :render-content="renderContent"
                 style="max-height: 500px;overflow-y: scroll"
               >
               </el-tree>
@@ -272,23 +274,11 @@
           })
         }).then(function (response) {
           if(response.code==0){
-            console.log(response)
             that.id = row.id
             that.dialogId=1
             that.configId = 1
             that.dialogFormVisible = true
             that.title = '管理员分配'
-            var str=[{
-                label: '一级 1',
-                disabled:true,
-                children: [{
-                    label: '二级 1-1',
-                    disabled:true,
-                    children: [{
-                        label: '三级 1-1-1'
-                    }]
-                }]
-            }]
             that.data3 = response.data.jsonData.rootList
             that.checkedList = response.data.jsonData.checkedList
           }else {
@@ -296,7 +286,6 @@
               message:response.message,
               type:'fail'
             })
-            return
           }
         }).catch(function (data) {
           that.loading = false
@@ -323,6 +312,29 @@
           that.loading = false
           console.log(data)
         })
+      },
+      renderContent(h, { node, data, store }) {        //JSX语法
+        if(data.is_menu==false){
+            return (
+                <span>
+                    <i class="fa fa-cog" style="color:#97A8BE;margin-right:5px"></i>
+                    <span>
+                        <span>{node.label}</span>
+                    </span>
+                </span>
+            )
+        }
+        else{
+            return (
+                <span>
+                    <i class="fa fa-file-text" style="color:#97A8BE;margin-right:5px"></i>
+                    <span>
+                        <span>{node.label}</span>
+                    </span>
+                </span>
+            )
+        }
+
       },
       getCheckedNodes() { //---------------------角色分配 获取节点方法
         var that = this
@@ -527,7 +539,7 @@
     margin-left: 0!important;
   }
   .wrapRole {
-    margin: 50px 20px 50px 20px;
+    margin: 20px 20px 50px 20px;
     box-sizing: border-box;
   }
 

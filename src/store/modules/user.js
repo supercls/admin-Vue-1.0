@@ -56,7 +56,8 @@ const user = {                //定义仓库数据，状态等
           commit('SET_ROLES', data.role)
           commit('SET_NAME', data.userName)
           commit('SET_AVATAR', data.avatar)
-          commit('SET_IMG',data.userHeadimgUrl)
+          //commit('SET_IMG',data.userHeadimgUrl)
+          commit('SET_IMG','http://doc.vue-js.com/images/logo.png')
           resolve(response)
         }).catch(error => {
           reject(error)

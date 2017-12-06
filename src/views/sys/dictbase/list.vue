@@ -27,6 +27,7 @@
                     :data="tableData"
                     border
                     v-loading="loading"
+                    height="500"
                     element-loading-text="拼命加载中"
                     style="width: 100%">
                 <el-table-column align="center" label="序号" width="65">
@@ -123,6 +124,7 @@
                     </el-table-column>
                     <el-table-column
                             min-width="200"
+                            fixed="right"
                             align="center"
                             label="操作">
                         <template scope="scope">
@@ -212,6 +214,7 @@ export default{
         }
         return {
             loading:true,
+            isSearch:false,
             addConfid:0,
             diologTitleTwo:'',
             tableData:[],
@@ -272,23 +275,9 @@ export default{
         },
         oneSearch:function(){           //一级查询
             var that=this;
-            that.service({
-                url:'/sys/dictbase/listData',
-                method:'post',
-                data:{
-                    pageId:that.pageId,
-                    pageSize:that.pageSize,
-                    dictTypeSearch:that.selectOne==0 ? that.inputSearch:'',
-                    dictTypeNameSearch:that.selectOne==1 ? that.inputSearch:''
-                }
-            }).then(response=>{
-                that.tableData=response.data.rows
-                that.total=response.data.rowCount
-                that.loading=false
-            }).catch(data=>{
-                that.loading=false
-                console.log(data)
-            })
+            that.pageId=1;
+            that.pageSize=10;
+            that.getList()
         },
         oneAddinfo:function(){          //一级新增触发
             var that=this;
@@ -596,7 +585,9 @@ export default{
                 method:'post',
                 data:{
                     pageId:that.pageId,
-                    pageSize:that.pageSize
+                    pageSize:that.pageSize,
+                    dictTypeSearch:that.selectOne==0 ? that.inputSearch:'',
+                    dictTypeNameSearch:that.selectOne==1 ? that.inputSearch:''
                 }
             }).then(response=>{
                that.tableData=response.data.rows

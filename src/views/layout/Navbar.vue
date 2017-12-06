@@ -15,11 +15,11 @@
 						首页
 					</el-dropdown-item>
 				</router-link>
-				<router-link class='inlineBlock' to="/aloneDilog">
-					<el-dropdown-item>
-						修改账户
-					</el-dropdown-item>
-				</router-link>
+				<!--<router-link class='inlineBlock' to="/aloneDilog">-->
+					<!--<el-dropdown-item>-->
+						<!--修改账户-->
+					<!--</el-dropdown-item>-->
+				<!--</router-link>-->
 				<el-dropdown-item >
 					<span @click="diologButton1" style="display:block;">修改信息</span>
 				</el-dropdown-item>
@@ -32,8 +32,10 @@
 				<el-upload
 						class="Nav-avatar-uploader"
 						ref="upload"
-						action="https://jsonplaceholder.typicode.com/posts/"
+						action="http://192.168.6.246:9191/file/upload"
 						:show-file-list="false"
+                        name="file"
+                        :headers="Xtoken"
 						:on-progress="handOnloading"
 						:auto-upload="true"
 						:on-success="handleAvatarSuccess"
@@ -92,6 +94,8 @@
 			dilogVisible1:false,
 			Uploadloading:false,  //头像上传loading
 			imageUrl: '',
+            Xtoken:{},
+			netFileName:'',
 			ruleForm2: {
 				oldpass:'',
 				pass: '',
@@ -120,7 +124,8 @@
 			'sidebar',
 			'avatar',
 			'userIcon',
-			'name'
+			'name',
+			'token'
 		])
 	},
 	methods: {
@@ -136,8 +141,9 @@
 			this.Uploadloading=true
 		},
 		handleAvatarSuccess(res, file,fileList) {    //文件上传成功时候钩子
+			console.log(res)
 			this.imageUrl = URL.createObjectURL(file.raw);
-			console.log(file)
+			this.netFileName=res.data.netFileName;
 			this.Uploadloading=false;
 		},
 		beforeAvatarUpload(file) {         //文件上传前的钩子
@@ -152,9 +158,22 @@
 			}
 			return isJPGPNG && isLt2M;
 		},
-		submitForm(formName) {
+		submitForm(formName) {                 //修改信息提交
 			this.$refs[formName].validate((valid) => {
 				if (valid) {
+				    this.service({
+				        url:'/changePwdSave',
+				        method:'post',
+				        data:{
+				            oldPwd:this.ruleForm2.oldpass,
+                            newPwd:this.ruleForm2.pass,
+							netFileName:this.netFileName
+                        }
+				    }).then(response=>{
+				        console.log(response)
+				    }).catch(data=>{
+				        console.log(data)
+				    })
 					this.dilogVisible1=false;
 					this.$message({
 						message:'修改成功',
@@ -179,7 +198,7 @@
 	mounted:function(){
 		var userIcon=this.$store.state.user.userIcon;
 		this.imageUrl=userIcon
-
+        this.Xtoken={'X-Token':this.token};
 	}
 	}
 </script>

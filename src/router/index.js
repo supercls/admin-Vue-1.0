@@ -18,8 +18,8 @@ export const constantRouterMap = [
 		hidden: true,
 		name: '大数据',
 		children: [
-			{ path: '/dashboard', component: _import('dashboard/index'),name:'大数据' },
-			{ path: '/aloneDilog', component: _import('headerUpload/index'),name:'修改头像' }
+			//{ path: '/dashboard', component: _import('dashboard/index'),name:'大数据' },
+			{ path: '/dashboard', component: _import('home/index'),name:'home' }
 		]
 	},
 	{
@@ -57,7 +57,8 @@ export const constantRouterMap = [
 			{ path: 'index', component: _import('quanxian2/index'), name: '测试3' },
 		]
 	},
-	{   																							//系统管理
+	/*******系统管理********/
+	{
 		path: '/sys',
 		component: Layout,
 		redirect: 'noredirect',
@@ -65,10 +66,10 @@ export const constantRouterMap = [
 		hidden: true,
 		icon: 'fa-bar-chart',
 		children: [
-			{ path: '/sys/operaterole/list', name: '角色管理', icon: 'zonghe', component: _import('sys/operaterole/list')},
-			{ path: '/sys/operateuser/list', name: '人员管理', icon: 'zonghez', component: _import('sys/operateuser/list')},
-			{ path: '/sys/operatemenu/list', name: '菜单管理', icon: 'zonghez', component: _import('sys/operatemenu/list')},
-			{ path: '/sys/dictbase/list', name: '字典管理', icon: 'zonghez', component: _import('sys/dictbase/list')},
+			{ path: '/sys/operaterole/list', name: '角色管理', icon: 'fa-calculator', component: _import('sys/operaterole/list')},
+			{ path: '/sys/operateuser/list', name: '人员管理', icon: 'fa-calculator', component: _import('sys/operateuser/list')},
+			{ path: '/sys/operatemenu/list', name: '菜单管理', icon: 'fa-calculator', component: _import('sys/operatemenu/list')},
+			{ path: '/sys/dictbase/list', name: '字典管理', icon: 'fa-calculator', component: _import('sys/dictbase/list')},
 		]
 	},
 	{
@@ -114,8 +115,6 @@ export default new Router({
 	scrollBehavior: () => ({ y: 0 }),
 	routes: constantRouterMap
 })
-
-
 export const asyncRouterMap=[       //异步路由
 	{ path: '*', redirect: '/404', hidden: true }
 ]

@@ -53,7 +53,11 @@ a:hover {
 .fade-leave-active {
   opacity: 0;
 }
-
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 //main-container全局样式
 .app-main{
   min-height: 100%
@@ -75,6 +79,9 @@ a:hover {
   margin-left:0px;
 }
 .wrap-table{
-  margin: 50px 20px 50px 20px;
+  margin: 20px 20px 50px 20px;
   box-sizing: border-box;
+}
+ul li{
+  list-style: none;
 }

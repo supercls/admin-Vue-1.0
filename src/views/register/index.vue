@@ -1,5 +1,5 @@
 <template>
-	<div class="register-container">
+	<div class="register-container" id="particles">
 		<header class="clearfix">
             <p>已有账号?<router-link to="/login"><el-button type="info">立即登录</el-button></router-link></p>
 		</header>
@@ -101,8 +101,17 @@ export default {
 				}
 			})
 		}
+	},
+	mounted:function(){
+
 	}
 }
+$(document).ready(function() {
+	$('#particles').particleground({
+		dotColor: '#58677b',
+		lineColor: '#58677b'
+	});
+});
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
@@ -122,6 +131,11 @@ export default {
         header p {
             float: right;
             color: #fff;
+        }
+        header {
+        	position: absolute;
+			top: 0px;
+			right: 0px;
         }
         header p button{
             margin:0 100px 0 25px;
@@ -165,6 +179,7 @@ export default {
 		}
 		.login-form {
 			position: absolute;
+			top:0;
 			left: 0;
 			right: 0;
 			width: 400px;
