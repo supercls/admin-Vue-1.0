@@ -2,13 +2,13 @@
   <div class='menu-wrapper'>
     <template v-for="item in routes">
 
-      <router-link v-if="!item.hidden&&item.noDropdown&&item.children.length>0" :to="item.path+'/'+item.children[0].path">
-        <el-menu-item :index="item.path+'/'+item.children[0].path" class='submenu-title-noDropdown'>
-          <i v-if='item.icon' :class="item.icon"  class="fa"></i><span>{{item.children[0].name}}</span>
+      <router-link v-if="!item.hidden&&!item.noDropdown&&item.children==null" :to="item.path">
+        <el-menu-item :index="item.path" class='submenu-title-noDropdown'>
+          <i v-if='item.icon' :class="item.icon"  class="fa"></i><span>{{item.name}}</span>
         </el-menu-item>
       </router-link>
 
-      <el-submenu :index="item.name" v-if="!item.noDropdown&&!item.hidden">
+      <el-submenu :index="item.name" v-if="!item.noDropdown&&!item.hidden&&item.children!=null">
         <template slot="title">
           <i v-if='item.icon' :class="item.icon"  class="fa"></i><span>{{item.name}}</span>
         </template>
@@ -37,14 +37,12 @@ export default {
     routes: {
       type: Array
     }
-  }
+  },
 }
 </script>
 <style scoped>
-  .el-submenu .fa{margin-right: 15px;}
+  .menu-wrapper .fa{margin-right: 15px;}
   .el-submenu .el-menu-item{
     min-width: 170px;
   }
-
-
 </style>

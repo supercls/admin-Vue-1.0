@@ -57,19 +57,20 @@
 		</el-dialog>
 		<!--主部分-->
 		<div class="el-table-div eldiv" style="margin-top:50px">
-			<el-table :data="tableData" border style="width: 100%" height="400">
+			<el-table :data="tableData" border style="width: 100%" height="500">
 				<el-table-column  label="序号" width="70"  stripe>
 					<template scope="scope">
 						{{scope.$index+1}}
 					</template>
 				</el-table-column>
 				<el-table-column prop="name" label="菜单名称"> </el-table-column>
-				<el-table-column prop="menuGrade" label="菜单级别" > </el-table-column>	
-				<el-table-column prop="path" label="菜单级别" > </el-table-column>	
+				<el-table-column prop="menuGrade" :formatter="formGrade" label="菜单级别" > </el-table-column> <!--格式化内容-->
+				<el-table-column prop="path" label="菜单链接" > </el-table-column>
 				<el-table-column prop="updateDate" label="创建时间" > </el-table-column>
 				<el-table-column label="操作">
 				<template scope="scope">
-					<el-button size="small" @click="second(scope.row)">设置</el-button>
+					<el-button size="small" v-if="scope.row.dirOrPage=='01'" @click="second(scope.row)">设置</el-button>
+                    <el-button size="small" type="info" v-if="scope.row.dirOrPage=='02'" @click="checkPermission(scope.$index,scope.row)">权限</el-button>
 			        <el-button size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
 			        <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)" >删除</el-button>
 	      	    </template>
@@ -116,7 +117,7 @@
 						
 					</el-form>
 				  <span slot="footer" class="dialog-footer">
-				    <el-button @click="dialogGengxinBox = false">取 消</el-button>
+				    <el-button @click="dialogSecondGengxinBox = false">取 消</el-button>
 				    <el-button type="primary" @click="dialogSecondGengxin ()">确 定</el-button>
 				  </span>
 			</el-dialog>
@@ -146,7 +147,7 @@
 			    </el-table-column>
 			    <el-table-column  prop="name" label="菜单名称" min-width="180" >
 			    </el-table-column>
-			    <el-table-column prop="menuGrade" label="菜单级别" min-width="180" >
+			    <el-table-column prop="menuGrade" :formatter="formGrade" label="菜单级别" min-width="180" >
 			    </el-table-column>
 			    <el-table-column prop="path" label="菜单链接" min-width="180" >
 			    </el-table-column>
@@ -154,8 +155,8 @@
 			    </el-table-column>
 			    <el-table-column label="操作" min-width="280" fixed="right" >
 			      <template scope="scope">
-			      		<el-button size="small" @click="addThird(scope.$index,scope.row)" v-if="dirOrPage == '01'">添加</el-button>
-			       		<el-button size="small" @click="checkPermission(scope.$index,scope.row)" >按钮</el-button>
+			      		<el-button size="small" @click="addThird(scope.$index,scope.row)" v-if="scope.row.dirOrPage== '01'">添加</el-button>
+			       		<el-button size="small" type="info" @click="checkPermission(scope.$index,scope.row)"  v-if="scope.row.dirOrPage == '02'">按钮</el-button>
 				        <el-button size="small" @click="handleEditSecond(scope.$index, scope.row)">编辑</el-button>
 				        <el-button size="small" type="danger" @click="handleDeleteData(scope.$index, scope.row)" >删除</el-button>
 			      </template>
@@ -287,7 +288,7 @@
 			    </el-table-column>
 			    <el-table-column prop="name" label="菜单名称" min-width="180" >
 			    </el-table-column>
-			    <el-table-column prop="menuGrade" label="菜单级别" min-width="180" >
+			    <el-table-column prop="menuGrade" :formatter="formGrade" label="菜单级别" min-width="180" >
 			    </el-table-column>
 			    <el-table-column prop="path" label="菜单链接" min-width="180" >
 			    </el-table-column>
@@ -330,10 +331,8 @@
 					<template>
 					  <el-select v-model="value" placeholder="请选择"  @change="change">
 					    <el-option
-					      v-for="item in options"
-					      :key="item.value"
-					      :label="item.label"
-					      :value="item.value">
+					      label="页面"
+					      value="02">
 					    </el-option>
 					  </el-select>
 					</template>
@@ -416,6 +415,7 @@ export default {
 			pageId:1,
 			pageSize:10,
 			parentId:'',
+            nameSearch:'',
 			menuId:''
 		},
 		roleRules: {
@@ -432,10 +432,11 @@ export default {
 				{ validator: checkRoleCode, trigger: 'blur' }
 			],
 		},
-		EditorForm:{		 
-          date: '',
-          menu :"",
-          menuLevel :""
+		EditorForm:{
+			icon :'',
+          	date: '',
+			menu :"",
+			menuLevel :""
 		},
         indexFrom:{
        	  icon :'',
@@ -444,7 +445,6 @@ export default {
           menuGrade :"一级菜单"
        },
         menuFrom:{
-       	 
           roleMenuUrl: '',
           roleName :"",
           menuGrade :"二级菜单"
@@ -489,6 +489,18 @@ export default {
 	    this.getMenuList();	    
 	 },
     methods: {
+        //table格式化内容
+        formGrade:function(row){
+           if(row.menuGrade=='01'){
+                return '一级菜单'
+           }
+           else if(row.menuGrade=='02'){
+                return '二级菜单'
+           }
+           else{
+                return  '三级菜单'
+           }
+        },
     	//select选择目录或者页面
     	change(val){
     		if(val == "01"){
@@ -499,19 +511,10 @@ export default {
     	},
         onSubmit() { //查询
         	    var that = this;
-        	    that.service({
-	           		url : '/sys/operatemenu/listData',
-	           		method:'post',
-	           		data:{
-	           			pageSize :10,
-	           			pageId:1,
-	           			nameSearch : that.formInline.user
-	           		}
-	            }).then(function(response){	           		
-				 	that.tableData = response.data.rows;
-	            }).catch(function(data){
-	         
-	            })
+        	    that.listQuery.nameSearch=that.formInline.user;
+                that.listQuery.pageSize=10;
+                that.listQuery.pageId=1;
+                that.getMenuList();
         },
 //      一级菜单
         handleEdit:function(index,rows){//一级菜单编辑数据        	
@@ -532,7 +535,7 @@ export default {
 					icon:response.data.icon
 				}
 		    }).catch(function(data){
-		    	
+                console.log(data)
 		    })
 		},
 		handleDelete(index, rows) {   //一级菜单删除数据
@@ -555,7 +558,7 @@ export default {
 			        }); 
 			   		that.tableData.splice(index,1) ;
 			   	}).catch(function(data){
-			   		
+                   console.log(data)
 			   	})
 	          that.getMenuList();
 	        }).catch(() => {
@@ -577,14 +580,15 @@ export default {
 					method:"post",
 					data:{
 						id:that.addId,
-						name : that.EditorForm.menu,
-						path: that.EditorForm.path
+						icon:that.EditorForm.icon,
+						name:that.EditorForm.menu,
+						path:that.EditorForm.path
 					}
 				}).then(function(response){
 					that.getMenuList();
 					that.$message("修改成功")
 				}).catch(function(data){
-					
+                    console.log(data)
 				})
 			}
 		},
@@ -596,7 +600,7 @@ export default {
 			this.listQuery.parentId = index.id
 			this.dialogSecond = true;
 			var that = this;
-	    	that.service({                     //不走store,直接写
+	    	that.service({                     //
 				url: '/sys/operatemenu/listChildrenData',
 			 	method: 'post',
 			 	data:that.listQuery
@@ -604,7 +608,7 @@ export default {
 			 	that.tableDataData = response.data.rows;
 			 	that.total1 = response.data.rowCount;
 			 }).catch(function(data){
-			 	
+                console.log(data)
 			 })
 		},
 		handleEditSecond:function(index,rows){    //编辑二级菜单数据
@@ -625,6 +629,7 @@ export default {
 		    	}
 		    }).then(function(response){
 		    }).catch(function(data){
+                console.log(data)
 		    })
 		},
 		dialogSecondGengxin:function(index){//确定编辑二级菜单
@@ -642,6 +647,7 @@ export default {
 					that.getErjiMenuList();
 					that.$message("修改成功")
 				}).catch(function(data){
+                    console.log(data)
 				})
 		},
 		handleDeleteData(index, rows) {//二级菜单删除
@@ -674,7 +680,7 @@ export default {
 					 }).catch(function(data){
 					 })			   		
 			   	}).catch(function(data){
-			   		
+                   console.log(data)
 			   	})
 	        }).catch(() => {
 	          that.$message({
@@ -686,6 +692,7 @@ export default {
 		dialogXinzeng :function(roleName){//新增数据
 				var that = this;
 				that.title="新增";
+				console.log(that.dirOrPage)
 				that.$refs[roleName].validate((valid) => {
 					if(valid){
 				  		that.service({
@@ -694,7 +701,8 @@ export default {
 							data:{
 								name : that.indexFrom.roleName,
 								path : that.indexFrom.roleMenuUrl,
-								dir : that.dirOrPage
+                                dirOrPage : that.dirOrPage,
+								icon:that.indexFrom.icon
 							}
 						}).then(function(response){
 							that.dialogXinzengBox = false;
@@ -724,7 +732,7 @@ export default {
 					menuGrade :"一级菜单"
 				};
 			}).catch(function(data){
-			
+                console.log(data)
 			});
 		},
 		refresh : function(){//刷新数据
@@ -751,7 +759,7 @@ export default {
 	    },
 	    getMenuList(){//菜单列表
 	    	var that = this;
-	    	that.service({                     //不走store,直接写
+	    	that.service({                     //
 				url: '/sys/operatemenu/listData',
 			 	method: 'post',
 			 	data:that.listQuery
@@ -760,24 +768,26 @@ export default {
 			 	that.tableData = response.data.rows;
 			 	that.total = response.data.rowCount;
 			 }).catch(function(data){
+                console.log(data)
 			 })
 	   },
 	    getErjiMenuList(){//获取二级菜单数据
 	   		var that = this;
-	    	that.service({                     //不走store,直接写
+	    	that.service({                     //
 				url: '/sys/operatemenu/listChildrenData',
 			 	method: 'post',
 			 	data:that.listQuery
 			 }).then(function(response){
 			 	that.tableDataData = response.data.rows;
 			 }).catch(function(data){
+                console.log(data)
 			 })
 	   },
 	   	checkPermission :function(index,rows){//查看按钮列表	   		
 	   		var that = this;
 	   		that.listQuery.menuId = rows.id
 	   		that.dialogBtn = true;
-	    	that.service({                     //不走store,直接写
+	    	that.service({                     //
 				url: '/sys/operatemenubtn/listData',
 			 	method: 'post',
 			 	data :{
@@ -791,7 +801,7 @@ export default {
 			 	that.total2 = response.data.rowCount;
 			 	
 			 }).catch(function(data){
-			 	
+                console.log(data)
 			 })
 	   },
 	  	refreshSecond : function(){//二级刷新
@@ -821,10 +831,10 @@ export default {
 					menuGrade :"二级菜单"
 				}
 			}).catch(function(data){
+                console.log(data)
 			});
 		},
     	dialogmenuXinzeng(roleName){//确定二级菜单新增
-    		console.log(this.dirOrPage)
     		var that = this;
     		that.$refs[roleName].validate((valid) => {
     			if(valid){
@@ -848,6 +858,7 @@ export default {
 						})
 					}).catch(function(data){
 						that.dialogMenuUpdata = true
+                        console.log(data)
 					})
     			}else{
     				return false;
@@ -874,7 +885,7 @@ export default {
 			            type: 'success',
 			            message: '删除成功'
 			        }); 
-		          	that.service({                     //不走store,直接写
+		          	that.service({                     //
 						url: '/sys/operatemenubtn/listData',
 					 	method: 'post',
 					 	data :{
@@ -889,6 +900,7 @@ export default {
 					}).catch(function(data){
 					})		          
 			   	}).catch(function(data){
+                   console.log(data)
 			   	})	           
 	        }).catch(() => {
 	          that.$message({
@@ -908,6 +920,7 @@ export default {
     			}
     		}).then(function(response){
     		}).catch(function(){
+                console.log(data)
     		})
     	},
     	dialogBtnXinzeng(fromBtn){//确定新增按钮
@@ -944,6 +957,7 @@ export default {
 							})
 			    		}).catch(function(){
 			    			that.dialogBtnUpdata1 = true;
+                            console.log(data)
 			    		})
     				}else{
     					return false;
@@ -967,7 +981,7 @@ export default {
     		}).then(function(response){
     			
     		}).catch(function(data){
-    			
+                console.log(data)
     		})
     	},
     	BtnUpdata(Boolean){//确定按钮编辑
@@ -1013,13 +1027,11 @@ export default {
 			 	that.loading = false;
 			 	that.tableDataBtn = response.data.rows
 			}).catch(function(data){
-			 	
+                console.log(data)
 			 })
     	},
     	CurrentChangeBtn(val){//按钮页数改变
-    		//console.log(this.listQuery)
     		this.listQuery.pageId = val
-    		//console.log(val)
     		var that = this;
     		that.service({                     //不走store,直接写
 				url: '/sys/operatemenubtn/listData',
@@ -1027,14 +1039,9 @@ export default {
 			 	data :that.listQuery
 			 }).then(function(response){
 			 	that.loading = false;
-			 	
-			 	
 			 	that.tableDataBtn = response.data.rows
-			 	//console.log(that.tableDataBtn)
-			 	
 			 }).catch(function(data){
-			 	
-			 	//console.log(data)
+                console.log(data)
 			 })
     	},
 //      三级菜单
@@ -1053,7 +1060,7 @@ export default {
 	    		that.total3 = response.data.rowCount
 	    		that .thirdTable = response.data.rows;
 	    	}).catch(function(data){
-	    		
+	    		console.log(data)
 	    	})
 	    },
     	handleDeletethird(index,role){//三级菜单删除
@@ -1081,7 +1088,7 @@ export default {
 				    		that .thirdTable = response.data.rows;
 				    		
 				    	}).catch(function(data){
-				    		
+                            console.log(data)
 				    	})
 		    			that.$message({
 				            type: 'success',
@@ -1111,7 +1118,7 @@ export default {
 	    		that .thirdTable = response.data.rows;
 	    		
 	    	}).catch(function(data){
-	    		
+                console.log(data)
 	    	})
     	},
     	CurrentChangeThird(val){//三级菜单分页
@@ -1125,11 +1132,10 @@ export default {
 	    		that.total3 = response.data.rowCount
 	    		that .thirdTable = response.data.rows;
 	    	}).catch(function(data){
-	    		
+                console.log(data)
 	    	})
     	},
     	addUpdataThird(){//三级菜单新增
-    		
     		var that = this;
     		that.service({
     			url:"/sys/operatemenu/add",
@@ -1143,7 +1149,7 @@ export default {
     				menuGrade :"三级菜单"
     			}
     		}).catch(function(data){
-    			
+                console.log(data)
     		})
     	},
     	dialogmenuThird(roleName){//确定三级菜单新增
@@ -1162,8 +1168,7 @@ export default {
 							name : that.menuFromThird.roleName,
 							path : that.menuFromThird.roleMenuUrl,
 							parentId : that.third,
-							Page:that.Page,
-							dir:that.dir
+                            dirOrPage:'02'
 						}
 					}).then(function(response){
 						that.dialogMenuUpdataThird = false;
@@ -1177,7 +1182,7 @@ export default {
 				    		that .thirdTable = response.data.rows;
 				    		//console.log(this.thirdTable)
 				    	}).catch(function(data){
-				    		
+                            console.log(data)
 				    	})
 						that.$message({
 							message:response.message,
@@ -1186,7 +1191,7 @@ export default {
 						
 					}).catch(function(data){
 						that.dialogMenuUpdataThird = true
-						
+                        console.log(data)
 					})
     			}else{
     				return false;

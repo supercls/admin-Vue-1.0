@@ -3,8 +3,8 @@
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <div style="overflow: hidden">
         <div  style="float: left">
-          <el-form-item label="角色名称">
-            <el-input v-model="formInline.userName" placeholder=""></el-input>
+          <el-form-item>
+            <el-input v-model="formInline.userName" placeholder=""><template slot="prepend">角色名称：</template></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" style="padding: 10px 30px" @click="select">查询</el-button>

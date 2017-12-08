@@ -62,9 +62,7 @@
 								<el-checkbox-group v-model="radios" @change="changeRadio1">
 									<span v-for="item in radioList"  ref="changeRadio1">
 										<el-checkbox  :label="item.id">{{item.roleName}}</el-checkbox>
-										
 									</span>
-								    
 								</el-checkbox-group>
 							</el-form-item>
 					</el-form>
@@ -84,12 +82,8 @@
 				<el-table-column prop="userName" label="用户名" > </el-table-column>
 				<el-table-column prop="userRealName" label="姓名" > </el-table-column>
 				<el-table-column prop="userMobile" label="手机号" > </el-table-column>
-				
-				
 				<el-table-column prop="userEmail" label="邮箱" min-width="150"> </el-table-column>
 				<el-table-column prop="userStatus" label="账号状态"> </el-table-column>
-				
-				
 				<el-table-column prop="updateDate" label="创建时间" > </el-table-column>
 				<el-table-column label="操作" min-width="150">
 				<template scope="scope">
@@ -97,7 +91,6 @@
 			        <el-button size="small" @click="handleEdit(scope.$index,scope.row)">编辑</el-button>
 			        <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)" >删除</el-button>
 	      	    </template>
-	      	
 				</el-table-column>
 			</el-table>
 			<!--编辑-->
@@ -153,13 +146,8 @@
 	      </el-pagination>
 	    </div>
 	</div>
-	
-	
-
-	
 </template>
 <script>
-	//import { isvalidUserphone } from '@/utils/validate'
 export default {
     data() {
     	const isvalidUserphone = (rule, value, callback) => {
@@ -194,7 +182,6 @@ export default {
 	        }else{
 	        	callback();
 	        }
-	        
 	    };
 	    var nameUser = (rule,value,callback) =>{
 	    	if(!(/^[\u4e00-\u9fa5]{0,}$/).test(value) || value === ''){
@@ -211,18 +198,15 @@ export default {
 			}
 		}
       return {
-      	
         formInline: {
           user: '',
           region: ''
-         
         },
         total:null,
         loading:true,
         tableData: [],
         dialogVisible:false,
         dialogXinzengBox : false,
-		
 		addFormRules: {
 			userMobile: [
 				{ validator: isvalidUserphone, trigger: 'blur' }
@@ -242,7 +226,6 @@ export default {
 			userEmail : [
 				{ validator: emailUser , trigger: 'blur' }
 			]
-			
 		},
 		 options: [{
           value: '02',
@@ -265,7 +248,6 @@ export default {
 			nameUser:'',
 			pass:'',
 			checkPass:'',
-			//radioList:[]
 		},
 		listQuery:{
 			pageSize:10,
@@ -278,7 +260,6 @@ export default {
 		id:"",
 		list:'',
        }
-      
     },
     created() {
 	    this.getPersonnelList();
@@ -304,7 +285,6 @@ export default {
 				list.push(event[i])
 			}
 			this.list = list.join(',');
-			
 		},
         onSubmit() {//查询
            		var that = this;
@@ -325,6 +305,7 @@ export default {
         },
         handleEdit:function(index,rows){//编辑数据
         	var that=this;
+			that.radioS1=[];
 			that.EditorForm={};
 		    that.dialogVisible=true;
 		    that.service({
@@ -335,7 +316,8 @@ export default {
 		    	}
 		    }).then(function(response){
 		    	that.EditorForm = response.data;
-		    	var rediRED= response.data.roleList
+		    	that.value1=response.data.userStatus
+		    	let rediRED= response.data.roleList
 		    	for(let i=0;i<rediRED.length;i++){
 		    	    if(rediRED[i].isChecked){
 						that.radioS1=that.radioS1.concat(rediRED[i].id.split(','))
@@ -472,7 +454,7 @@ export default {
 				}).then(function(response){
 					that.$message({
 			            type: 'success',
-			            message: '重置成功!',
+			            message:response.message,
 			        });
 				}).catch(function(data){
 					
@@ -487,6 +469,7 @@ export default {
     	addUser(){
     		var that = this;
     		that.addFrom={}
+    		that.value1=''
             setTimeout(()=>{
                 that.$refs['addFrom'].resetFields();
             },200)
@@ -495,8 +478,6 @@ export default {
     			url:"/sys/operateuser/add",
     			method:"post"
     		}).then(function(response){
-    			console.log(response)
-
 				that.radioList = response.data;
 		   }).catch(function(data){
     			
