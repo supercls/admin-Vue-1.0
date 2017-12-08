@@ -18,7 +18,7 @@ export const constantRouterMap = [
 		hidden: true,
 		name: '大数据',
 		children: [
-			//{ path: '/dashboard', component: _import('dashboard/index'),name:'大数据' },
+			{ path: '/listsNum', component: _import('dashboard/index'),name:'大数据' },
 			{ path: '/dashboard', component: _import('home/index'),name:'home' }
 		]
 	},
@@ -57,21 +57,6 @@ export const constantRouterMap = [
 			{ path: 'index', component: _import('quanxian2/index'), name: '测试3' },
 		]
 	},
-	/*******系统管理********/
-	{
-		path: '/sys',
-		component: Layout,
-		redirect: 'noredirect',
-		name: '系统管理',
-		hidden: true,
-		icon: 'fa-bar-chart',
-		children: [
-			{ path: '/sys/operaterole/list', name: '角色管理', icon: 'fa-calculator', component: _import('sys/operaterole/list')},
-			{ path: '/sys/operateuser/list', name: '人员管理', icon: 'fa-calculator', component: _import('sys/operateuser/list')},
-			{ path: '/sys/operatemenu/list', name: '菜单管理', icon: 'fa-calculator', component: _import('sys/operatemenu/list')},
-			{ path: '/sys/dictbase/list', name: '字典管理', icon: 'fa-calculator', component: _import('sys/dictbase/list')},
-		]
-	},
 	{
 		path: '/table',
 		component: Layout,
@@ -95,16 +80,36 @@ export const constantRouterMap = [
 			{ path: '/table/upload', name: 'upload', component: _import('table/a')}
 		]
 	},
+/****一级页面测试*****/
 	{
-		path:'/echarts',
+		path:'/listsNum',
 		component: Layout,
-		redirect: '/echarts/index',
 		name:'echarts',
-		hidden: true,
+		hidden: false,
 		icon: 'fa-krw',
 		noDropdown: true,
-		children:[
-			{path:'/echarts/index',name: 'echarts', component: _import('echarts/index')}
+	},
+	{
+		path:'/table/upload',
+		component: Layout,
+		name:'upload',
+		hidden: false,
+		icon: 'fa-krw',
+		noDropdown: true,
+	},
+/*******系统管理********/
+	{
+		path: '/sys',
+		component: Layout,
+		redirect: 'noredirect',
+		name: '系统管理',
+		hidden: true,
+		icon: 'fa-bar-chart',
+		children: [
+			{ path: '/sys/operaterole/list', name: '角色管理', icon: 'fa-calculator', component: _import('sys/operaterole/list')},
+			{ path: '/sys/operateuser/list', name: '人员管理', icon: 'fa-calculator', component: _import('sys/operateuser/list')},
+			{ path: '/sys/operatemenu/list', name: '菜单管理', icon: 'fa-calculator', component: _import('sys/operatemenu/list')},
+			{ path: '/sys/dictbase/list', name: '字典管理', icon: 'fa-calculator', component: _import('sys/dictbase/list')},
 		]
 	},
 	{ path: '*', redirect: '/404', hidden: true }
