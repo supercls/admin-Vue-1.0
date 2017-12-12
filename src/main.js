@@ -8,7 +8,7 @@ import '@/icons' // icon
 import '@/permission' // 权限
 import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
-import { getToken,getDstoken,setDstoken,removeDstoken} from '@/utils/auth'
+import { getToken} from '@/utils/auth'
 Vue.use(ElementUI)
 
 // 创建axios实例
@@ -22,9 +22,6 @@ service.interceptors.request.use(config => {
 	//console.log($.isEmptyObject(_g.useSessions()))  //判断对象是否为空
   if (store.getters.token) {
 	config.headers['X-Token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
-  }
-  if(getDstoken()){
-  	config.headers['DS-Token'] = getDstoken() // dstoken 保存操作传递
   }
   return config
 }, error => {
@@ -45,9 +42,8 @@ service.interceptors.response.use(
 		duration: 5 * 1000
 	  })
 	  // 50008:非法的token; 50012:其他客户端登录了;  50014:Token 过期了;
-	  if (res.code === 1001 || res.code === 50012 || res.code === 50014) {
-	  	alert(0)
-		MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '需要重新验证身份', {
+	  if (res.code == 1001 || res.code == 50012 || res.code == 50014) {
+		MessageBox.confirm('你已被登出或者登录已过期，可以取消继续留在该页面，或者重新登录', '需要重新验证身份', {
 		  confirmButtonText: '重新登录',
 		  cancelButtonText: '取消',
 		  type: 'warning'
@@ -59,14 +55,6 @@ service.interceptors.response.use(
 	  }
 	  return Promise.reject('error')
 	} else {
-		if(response.data.dsToken){
-			setDstoken(response.data.dsToken)
-		}
-		else{
-			if(!response.data.remainDsToken){
-				removeDstoken()
-			}
-		}
 		return response.data
 	}
   },

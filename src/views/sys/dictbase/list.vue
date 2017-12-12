@@ -293,13 +293,13 @@ export default{
                 }
                 that.$refs['oneForm'].resetFields();  //重置
             },100)
-            that.service({
-                url:'/sys/dictbase/addType',
-                method:'post'
-            }).then(response=>{
-            }).catch(data=>{
-                console.log(data)
-            })
+//            that.service({
+//                url:'/sys/dictbase/addType',
+//                method:'post'
+//            }).then(response=>{
+//            }).catch(data=>{
+//                console.log(data)
+//            })
         },
         addFormsure:function(formName){         //新增确认
             var that=this;

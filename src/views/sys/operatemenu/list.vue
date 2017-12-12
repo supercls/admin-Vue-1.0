@@ -726,7 +726,7 @@ export default {
 			_self.service({
 				url:"/sys/operatemenu/add",
 				method:"post",
-				
+
 			}).then(function(response){
 				_self.indexFrom={
 					menuGrade :"一级菜单"
@@ -739,8 +739,6 @@ export default {
 			this.getMenuList()
 			this.$message("已刷新")
 		},
-		
-		
 		handleSizeChange(val) { //条数改变
 			this.listQuery.pageSize = val;
 			this.getMenuList()

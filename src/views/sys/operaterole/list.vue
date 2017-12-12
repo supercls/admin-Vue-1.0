@@ -461,16 +461,16 @@
         this.title = '新增用户信息'
         let that=this
         that.editorId = 0
-        that.service({
-          url: '/sys/operaterole/add',
-          method: 'post',
-          data:({
-          })
-        }).then(function (response) {
-
-        }).catch(function (data) {
-
-        })
+//        that.service({
+//          url: '/sys/operaterole/add',
+//          method: 'post',
+//          data:({
+//          })
+//        }).then(function (response) {
+//
+//        }).catch(function (data) {
+//
+//        })
       },
 
       addSave(formName) { //---------------------新增 保存
