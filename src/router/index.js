@@ -19,7 +19,8 @@ export const constantRouterMap = [
 		name: '大数据',
 		children: [
 			{ path: '/listsNum', component: _import('dashboard/index'),name:'大数据' },
-			{ path: '/dashboard', component: _import('home/index'),name:'home' }
+			{ path: '/dashboard', component: _import('home/index'),name:'home' },
+
 		]
 	},
 /*******系统管理********/
@@ -47,8 +48,25 @@ export const constantRouterMap = [
 		icon: 'fa-bar-chart',
 		children: [
 			{ path: '/commodity/product/list', name: '商品管理', icon: 'fa-calculator', component: _import('commodity/product/list')},
+			{ path: '/commodity/product/add', component: _import('commodity/product/add'),name:'新增商品' },
+			{ path: '/commodity/product/editor', component: _import('commodity/product/editor'),name:'编辑商品' },
+			{ path: '/commodity/product/save', component: _import('commodity/product/save'),name:'保存商品' },
+			{ path: '/commodity/categoryList/list', name: '分类管理', icon: 'fa-calculator', component: _import('commodity/categoryList/list')},
 		]
 	},
+/*******店铺********/
+	  {
+		path: '/merchant',
+		component: Layout,
+		redirect: 'noredirect',
+		name: '店铺',
+		hidden: true,
+		icon: 'fa-shopping-cart',
+		children: [
+		  { path: '/merchant/seller/list', name: '卖家信用', icon: 'fa-calculator', component: _import('merchant/seller/list')},
+		  { path: '/merchant/merchantManage/list', name: '店铺管理', icon: 'fa-calculator', component: _import('merchant/merchantManage/list')},
+		]
+	  },
 	{ path: '*', redirect: '/404', hidden: true }
 ]
 

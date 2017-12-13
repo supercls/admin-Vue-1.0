@@ -409,7 +409,9 @@
         this.title = '修改用户信息'
         this.id=row.id
         this.index=index
-        this.form = this.tableData[index]
+        this.form.roleCode=row.roleCode
+        this.form.roleName=row.roleName
+    console.log()
         var that = this
         that.service({
           url: '/sys/operaterole/update',

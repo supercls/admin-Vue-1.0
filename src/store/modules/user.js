@@ -36,6 +36,7 @@ const user = {                //定义仓库数据，状态等
     // 登录
     Login({ commit }, userInfo) {  //userinfo  传递的参数    //处理后的数据放入数据库中 Action 提交的是 mutation，而不是直接变更状态。不同于mutations使用commit方法，actions使用dispatch方法。
       const username = userInfo.username.trim()
+
       return new Promise((resolve, reject) => {
         login(username, userInfo.password).then(response => {
           const data = response

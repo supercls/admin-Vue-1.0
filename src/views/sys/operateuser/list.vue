@@ -83,7 +83,7 @@
 				<el-table-column prop="userRealName" label="姓名" > </el-table-column>
 				<el-table-column prop="userMobile" label="手机号" > </el-table-column>
 				<el-table-column prop="userEmail" label="邮箱" min-width="150"> </el-table-column>
-				<el-table-column prop="userStatus" label="账号状态"> </el-table-column>
+				<el-table-column prop="userStatus" :formatter="formGrade" label="账号状态"> </el-table-column>
 				<el-table-column prop="updateDate" label="创建时间" > </el-table-column>
 				<el-table-column label="操作" min-width="150">
 				<template scope="scope">
@@ -265,6 +265,18 @@ export default {
 	    this.getPersonnelList();
 	 },
     methods: {
+		//table格式化内容
+		formGrade:function(row){
+			if(row.userStatus=='01'){
+				return '开启'
+			}
+			else if(row.userStatus=='02'){
+				return '禁用'
+			}
+			else{
+				return '未知'
+			}
+		},
     	changeStutas(val){//状态选择
     		this.valueVal=val;
     	},
