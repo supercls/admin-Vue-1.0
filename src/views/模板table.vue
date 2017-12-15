@@ -1,30 +1,22 @@
 <template>
     <div class="wrap-table product-menu">
-        <div class="produce-tree-left">
-            <el-tree
-                :data="datatree"
-                :props="defaultProps"
-                @node-click="handleNodeClick"
-                ref="tree"
-                node-key="id"
-                :render-content="renderContent"
-                >
-            </el-tree>
-        </div>
         <!--tree-top-->
-        <div class="produce-tree-right">
-                <div style="float: left">
-                    <el-form :inline="true">
-                        <el-form-item>
-                            <el-button style="padding: 10px 30px" @click="">新增</el-button>
-                        </el-form-item>
-                    </el-form>
-                </div>
+            <div class="clearfix">
                 <div style="float: right">
                     <el-form :inline="true">
+                        <el-form-item>
+                            <el-input v-model="inputSearch1" placeholder="请输入品牌名称"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-input v-model="inputSearch2" placeholder="请输入类别"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" style="padding: 10px 30px" @click="oneSearch">查询</el-button>
+                        </el-form-item>
                         <el-button style="padding: 10px 30px" @click="refresh">刷新</el-button>
                     </el-form>
                 </div>
+            </div>
             <!---->
             <template>
                 <el-table
@@ -36,7 +28,7 @@
                         @select="choseOne" @select-all="choseAll"
                         style="width: 100%">
                     <el-table-column
-                            fixed
+                            fie
                             type="selection"
                             width="55">
                     </el-table-column>
@@ -48,41 +40,41 @@
                     <el-table-column
                             prop="a"
                             align="center"
-                            label="分类名称"
-                            min-width="150">
-                    </el-table-column>
-                    <el-table-column
-                            prop="b"
-                            label="类型"
-                            align="center"
+                            label="品牌名称"
                             min-width="200">
                     </el-table-column>
                     <el-table-column
+                            prop="b"
+                            label="品牌图片"
+                            align="center"
+                            min-width="200">
+                        <template scope="scope">
+                            <img :src="scope.row.b" alt="" class="img-table-small"/>
+                        </template>
+                    </el-table-column>
+                    <el-table-column
                             prop="c"
-                            label="显示"
+                            label="类别"
                             align="center"
                             min-width="200">
                     </el-table-column>
                     <el-table-column
                             prop="d"
-                            label="推荐"
+                            label="排序"
+                            align="center"
+                            min-width="200">
+                    </el-table-column>
+                    <el-table-column
+                            prop="e"
+                            label="状态"
                             align="center"
                             min-width="100">
                     </el-table-column>
                     <el-table-column
-                            prop="e"
-                            label="排序"
-                            align="center"
-                            min-width="80">
-                    </el-table-column>
-                    <el-table-column
-                            min-width="300"
+                            min-width="200"
                             align="center"
                             label="操作">
                         <template scope="scope">
-                            <el-button
-                                    size="small" @click="addNext(scope.$index, scope.row)"
-                                    >新增下级</el-button>
                             <el-button
                                     size="small" @click="handleEdit(scope.$index, scope.row)"
                                     >编辑</el-button>
@@ -110,65 +102,14 @@
             </div>
             <!---->
             <!--diolog字典值-->
-            <el-dialog title="编辑" :visible.sync="diolog"  size="small">
-                <el-form :model="editorForm" :rules="roleRules" label-position="right" label-width="80px"  ref="editorForm">
-                    <el-row>
-                        <el-col :span="12">
-                            <el-form-item label="分类名称" prop="a">
-                                <el-input type="text" class="w250" v-model="editorForm.a" auto-complete="off" placeholder="请输入分类名称"></el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="上级分类">
-                                <el-cascader
-                                        :options="editorForm.options"
-                                        placeholder="请选择上级分类"
-                                        v-model="editorForm.selectedOptions"
-                                        :props="defaultprops"
-                                        clearable="clearable"
-                                        style="width: 240px;"
-                                        @change="handleChange">
-                                </el-cascader>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="12">
-                            <el-form-item label="类型" style="display: inline-block">
-                                <el-checkbox v-model="editorForm.checked">关联类型到下级</el-checkbox>
-                            </el-form-item>
-                            <el-form-item style="display: inline-block;">
-                                <el-select v-model="editorForm.select2" placeholder="请选择">
-                                    <el-option
-                                            v-for="item in editorForm.items"
-                                            :key="item.value"
-                                            :label="item.label"
-                                            :value="item.value">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-form-item label="显示">
-                                <el-switch
-                                        v-model="editorForm.switch1"
-                                        on-text=""
-                                        off-text="">
-                                </el-switch>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="12">
-                            <el-form-item label="推荐">
-                                <el-switch
-                                        v-model="editorForm.switch2"
-                                        on-text=""
-                                        off-text="">
-                                </el-switch>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
+            <el-dialog title="编辑" :visible.sync="diolog"  size="tiny">
+                <el-form :model="editorForm" :rules="roleRules" label-position="left" label-width="80px"  ref="editorForm">
+                    <el-form-item label="商品名称" prop="a">
+                        <el-input type="textarea" v-model="editorForm.a" auto-complete="off" placeholder="请输入商品名称"></el-input>
+                    </el-form-item>
+                    <el-form-item label="是否上架" prop="e">
+                        <el-switch on-text="" off-text="" v-model="editorForm.e"></el-switch>
+                    </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="diolog = false">取 消</el-button>
@@ -176,7 +117,6 @@
                 </div>
             </el-dialog>
         </div>
-    </div>
 </template>
 <script>
 export default {
@@ -208,23 +148,10 @@ export default {
                         id:'1',
                     }]
                 }],
-                defaultprops:{
-                    value: 'value',
-                    label:'label',
-                    children: 'children'
-                },
-                clearable:true,
                 editorForm:{
                     a:'',
                     e:false,
-                    options:[],
-                    selectedOptions:[],
                     id:null,
-                    checked:false,
-                    select2:'',
-                    items:[],
-                    switch1:true,
-                    switch2:true
                 },
                 diolog:false,
                 defaultProps: {
@@ -234,16 +161,16 @@ export default {
                     isLeaf: "isChild",
                 },
                 roleRules: {
-                    a: [
+                    dictType: [
                         { validator: checkRole, trigger: 'blur' }
                     ],
-                    b: [
+                    dictTypeName: [
                         { validator: checkRole, trigger: 'blur' }
                     ],
-                    c: [
+                    dictValue: [
                         { validator: checkRole, trigger: 'blur' }
                     ],
-                    d: [
+                    dictName: [
                         { validator: checkRole, trigger: 'blur' }
                     ],
 
@@ -253,40 +180,12 @@ export default {
                 total:null,
                 pageId:1,
                 pageSize:10,
+                inputSearch1:'',
+                inputSearch2:'',
                 treeId:'',
             };
     },
     methods: {
-        renderContent(h, { node, data, store }) {        //tree-JSX语法
-            if(data.is_menu==false){
-                return (
-                <span>
-                    <i class="fa fa-cog" style="color:#97A8BE;margin-right:5px"></i>
-                    <span>
-                    <span>{node.label}</span>
-                    </span>
-                </span>
-                )
-             }
-            else{
-             return (
-                <span>
-                    <i class="fa fa-file-text" style="color:#97A8BE;margin-right:5px"></i>
-                    <span>
-                    <span>{node.label}</span>
-                    </span>
-                </span>
-                )
-            }
-        },
-        handleNodeClick(data) {  //tree
-            this.loading=true;
-            this.treeId=data.id
-            this.getList()
-        },
-        handleChange(value) {    //change事件
-            console.log(value);
-        },
         refresh:function(){    //刷新
             this.getList();
             this.$message({
@@ -294,8 +193,8 @@ export default {
                 message:'已刷新'
             })
         },
-        addNext:function(index,row){
-
+        oneSearch:function(){  //查询
+            this.getList();
         },
         handleEdit:function(index,row){  //编辑
 //            this.$router.push({
@@ -304,20 +203,16 @@ export default {
 //            })
               var that=this;
               that.diolog=true;
-              that.editorForm.a=row.a
-              that.editorForm.options=row.options
-              that.editorForm.id=row.id
+
         },
         handleDelete:function(){  //删除
 
         },
         handleSizeChange(val) {       //条数改变
             this.pageSize=val;
-            this.getList();
         },
         handleCurrentChange(val) {    //页数改变
             this.pageId = val
-            this.getList();
         },
         choseOne:function(selection,row){       //单选
             var arrCh=[];
@@ -334,11 +229,15 @@ export default {
         getList:function(){           //获取信息列表
             var that=this
             that.service({
-                url:'https://www.easy-mock.com/mock/59bb7d44e0dc663341ab7963/example/categoryList',
+                url:'https://www.easy-mock.com/mock/59bb7d44e0dc663341ab7963/example/tableProduce',
                 method:'post',
                 data:{
                     pageId:that.pageId,
                     pageSize:that.pageSize,
+                    selectOne:that.selectOne,
+                    inputSearch1:that.inputSearch1,
+                    inputSearch2:that.inputSearch2,
+                    checkboxGroup1:that.checkboxGroup1,
                     treeId:that.treeId
                 }
             }).then(response=>{
@@ -360,19 +259,6 @@ export default {
     .product-menu{
         position: relative;
     }
-    .product-menu .el-tree{
-        border:none;
-    }
-    .product-menu .produce-tree-left{
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        width: 150px;
-        height: 100%;
-    }
-    .product-menu .produce-tree-right{
-        margin-left: 180px;
-    }
     .product-menu .page-div{
         margin: 20px auto;
     }
@@ -380,8 +266,5 @@ export default {
         width: 68px;
         height: 56px;
         vertical-align: middle;
-    }
-    .product-menu .el-table__fixed{
-        box-shadow: 0;
     }
 </style>

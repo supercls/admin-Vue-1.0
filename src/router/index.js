@@ -1,12 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 const _import = require('./_import_' + process.env.NODE_ENV)
-
 /* layout */
 import Layout from '../views/layout/Layout'
-
 Vue.use(Router)
-
+//路由列表
 export const constantRouterMap = [
 	{ path: '/login', component: _import('login/index'), hidden: true },
 	{ path: '/register', component: _import('register/index'), hidden: true },
@@ -20,7 +18,6 @@ export const constantRouterMap = [
 		children: [
 			{ path: '/listsNum', component: _import('dashboard/index'),name:'大数据' },
 			{ path: '/dashboard', component: _import('home/index'),name:'home' },
-
 		]
 	},
 /*******系统管理********/
@@ -52,6 +49,10 @@ export const constantRouterMap = [
 			{ path: '/commodity/product/editor', component: _import('commodity/product/editor'),name:'编辑商品' },
 			{ path: '/commodity/product/save', component: _import('commodity/product/save'),name:'保存商品' },
 			{ path: '/commodity/categoryList/list', name: '分类管理', icon: 'fa-calculator', component: _import('commodity/categoryList/list')},
+			{ path: '/commodity/brandList/list', name: '品牌管理', icon: 'fa-calculator', component: _import('commodity/brandList/list')},
+			{ path: '/commodity/standardList/list', name: '规格管理', icon: 'fa-calculator', component: _import('commodity/standardList/list')},
+			{ path: '/commodity/standardList/editor', name: '编辑规格', icon: 'fa-calculator', component: _import('commodity/standardList/editor')},
+			{ path: '/commodity/standardList/add', name: '新增规格', icon: 'fa-calculator', component: _import('commodity/standardList/add')},
 		]
 	},
 /*******店铺********/

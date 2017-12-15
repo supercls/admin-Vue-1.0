@@ -8,7 +8,6 @@ const service = axios.create({
   baseURL: process.env.BASE_API, // api的base_url
   timeout: 15000                // 请求超时时间
 })
-//service.defaults.withCredentials = true  //请求开启cookie
 // request拦截器
 service.interceptors.request.use(config => {
   if (store.getters.token) {
@@ -35,6 +34,7 @@ service.interceptors.response.use(
         showClose: true,
         duration: 5 * 1000
       })
+      alert(res.code)
       // 50008:非法的token; 50012:其他客户端登录了;  50014:Token 过期了;
       if (res.code == 1001 || res.code == 50012 || res.code == 50014) {
         location.reload()   // 为了重新实例化vue-router对象 避免bug
